@@ -137,16 +137,6 @@ size_t Okapi::printDataRow(Print& out)
 	return n;
 }
 
-String Okapi::dataHeader()
-{
-	String h;
-	NW_StringPrint p(h);
-	printDataHeader(p);
-	h += Header;
-	h += "Note";
-	return h;
-}
-
 void Okapi::enviroStats()
 {
 	Serial.print("Temp = ");
@@ -210,17 +200,6 @@ void Okapi::readOnBoard()
 	VPrimeMv = VPrime;
 	ISolarMa = ISolar;
 	IBetaMa = IBeta;
-}
-
-String Okapi::getOnBoardVals()
-{
-	//The reading, then the row: printDataRow() prints what readOnBoard() left,
-	//which is what lets the same row reach two sinks without reading twice.
-	readOnBoard();
-	String s;
-	NW_StringPrint p(s);
-	printDataRow(p);
-	return s;
 }
 
 String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (working backwards from most recent log)

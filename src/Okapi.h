@@ -122,8 +122,7 @@ class Okapi : public NW_Logger
      * @brief Obtain date/time, P/T/RH, temperatures, and voltages from board
      */
 		/** @brief Read the on-board channels into RtcTemp, VBetaMv, VPrimeMv, ISolarMa and IBetaMa (and the timestamp). */
-		void readOnBoard();
-		String getOnBoardVals();
+		void readOnBoard() override;
 
 		/** @brief Print the logger's own data columns: the timestamp and the on-board sensors. */
 		size_t printDataHeader(Print& out) override;
@@ -208,7 +207,6 @@ class Okapi : public NW_Logger
 		const String LibVersion = OKAPI_LIBRARY_VERSION;
 
 	protected:
-		String dataHeader() override;
 		void sleepNow() override;
 		void afterLogEvent() override; //The backhaul: after LogCountPush rows on main power, hand them to the Feather
 		void turnOffSDcard();
