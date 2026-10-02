@@ -107,9 +107,44 @@ bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
 
 // The data file's header row: the on-board columns, then the sketch's Header,
 // then Note. Note is always the last column and carries no comma after it.
+size_t Okapi::printDataHeader(Print& out)
+{
+	//The logger's own columns: the timestamp and the on-board sensors. The data
+	//file's header row is this, then each watched sensor's, then Note. See
+	//LIBRARY-DESIGN.md section 14.
+	return out.print("Time [UTC], PresOB [mBar], RH_OB [%], TempOB [C], Temp RTC [C], VBeta [mV], VPrime [mV], ISolar [mA], IBeta [mA],");
+}
+
+size_t Okapi::printDataRow(Print& out)
+{
+	//The values readOnBoard() left, in printDataHeader()'s order. This takes no
+	//reading: a row written to the card and to the monitor must not read the
+	//battery lines twice, and the two rows would otherwise differ.
+	size_t n = 0;
+	n += out.print(LogTimeDate);
+	n += out.print(',');
+	n += bme280.printDataRow(out);
+	n += out.print(RtcTemp);
+	n += out.print(',');
+	n += out.print(VBetaMv);
+	n += out.print(',');
+	n += out.print(VPrimeMv);
+	n += out.print(',');
+	n += out.print(ISolarMa);
+	n += out.print(',');
+	n += out.print(IBetaMa);
+	n += out.print(',');
+	return n;
+}
+
 String Okapi::dataHeader()
 {
-	return "Time [UTC], PresOB [mBar], RH_OB [%], TempOB [C], Temp RTC [C], VBeta [mV], VPrime [mV], ISolar [mA], IBeta [mA]," + Header + "Note";
+	String h;
+	NW_StringPrint p(h);
+	printDataHeader(p);
+	h += Header;
+	h += "Note";
+	return h;
 }
 
 void Okapi::enviroStats()
@@ -125,7 +160,7 @@ void Okapi::enviroStats()
 	Serial.println("%");
 }
 
-String Okapi::getOnBoardVals()
+void Okapi::readOnBoard()
 {
 	//Get onboard temp, RTC temp, and battery voltage, referance voltage
 	// float VRef = analogRead(VRef_Pin);
@@ -170,7 +205,22 @@ String Okapi::getOnBoardVals()
 	float RTCTemp = RTC.getTemp();  //Get Temp from RTC
 	getTime(); //FIX!
 	// if(Model< Model_2v0) return LogTimeDate + "," + String(RTCTemp) + "," + String(VBeta) + ",";
-	return LogTimeDate + "," + String(bme280.getString()) + String(RTCTemp) + "," + String(VBeta) + "," + String(VPrime) + "," + String(ISolar) + "," + String(IBeta) + ",";
+	RtcTemp = RTCTemp;
+	VBetaMv = VBeta;
+	VPrimeMv = VPrime;
+	ISolarMa = ISolar;
+	IBetaMa = IBeta;
+}
+
+String Okapi::getOnBoardVals()
+{
+	//The reading, then the row: printDataRow() prints what readOnBoard() left,
+	//which is what lets the same row reach two sinks without reading twice.
+	readOnBoard();
+	String s;
+	NW_StringPrint p(s);
+	printDataRow(p);
+	return s;
 }
 
 String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (working backwards from most recent log)
