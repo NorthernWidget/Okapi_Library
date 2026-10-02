@@ -121,7 +121,7 @@ class Okapi : public NW_Logger
     /**
      * @brief Obtain date/time, P/T/RH, temperatures, and voltages from board
      */
-		/** @brief Read the on-board channels into RtcTemp, VBetaMv, VPrimeMv, ISolarMa and IBetaMa (and the timestamp). */
+		/** @brief Read the on-board channels into _rtcTemp, _vBetaMv, _vPrimeMv, _iSolarMa and _iBetaMa (and the timestamp). */
 		void readOnBoard() override;
 
 		/** @brief Print the logger's own data columns: the timestamp and the on-board sensors. */
@@ -199,11 +199,11 @@ class Okapi : public NW_Logger
     /// WHAT IS THIS?
 		uint8_t GlobalInt = 28;
     /// Okapi data logger library version
-		float RtcTemp = NW_ERROR;    ///< RTC die temperature from the last readOnBoard() [C]
-		float VBetaMv = NW_ERROR;    ///< Beta rail voltage from the last readOnBoard() [mV]
-		float VPrimeMv = NW_ERROR;   ///< Prime rail voltage from the last readOnBoard() [mV]
-		float ISolarMa = NW_ERROR;   ///< Solar current from the last readOnBoard() [mA]
-		float IBetaMa = NW_ERROR;    ///< Beta current from the last readOnBoard() [mA]
+		float _rtcTemp = NW_ERROR;    ///< RTC die temperature from the last readOnBoard() [C]
+		float _vBetaMv = NW_ERROR;    ///< Beta rail voltage from the last readOnBoard() [mV]
+		float _vPrimeMv = NW_ERROR;   ///< Prime rail voltage from the last readOnBoard() [mV]
+		float _iSolarMa = NW_ERROR;   ///< Solar current from the last readOnBoard() [mA]
+		float _iBetaMa = NW_ERROR;    ///< Beta current from the last readOnBoard() [mA]
 		const String LibVersion = OKAPI_LIBRARY_VERSION;
 
 	protected:

@@ -124,15 +124,15 @@ size_t Okapi::printDataRow(Print& out)
 	n += out.print(LogTimeDate);
 	n += out.print(',');
 	n += bme280.printDataRow(out);
-	n += out.print(RtcTemp);
+	n += out.print(_rtcTemp);
 	n += out.print(',');
-	n += out.print(VBetaMv);
+	n += out.print(_vBetaMv);
 	n += out.print(',');
-	n += out.print(VPrimeMv);
+	n += out.print(_vPrimeMv);
 	n += out.print(',');
-	n += out.print(ISolarMa);
+	n += out.print(_iSolarMa);
 	n += out.print(',');
-	n += out.print(IBetaMa);
+	n += out.print(_iBetaMa);
 	n += out.print(',');
 	return n;
 }
@@ -195,11 +195,11 @@ void Okapi::readOnBoard()
 	float RTCTemp = RTC.getTemp();  //Get Temp from RTC
 	getTime(); //FIX!
 	// if(Model< Model_2v0) return LogTimeDate + "," + String(RTCTemp) + "," + String(VBeta) + ",";
-	RtcTemp = RTCTemp;
-	VBetaMv = VBeta;
-	VPrimeMv = VPrime;
-	ISolarMa = ISolar;
-	IBetaMa = IBeta;
+	_rtcTemp = RTCTemp;
+	_vBetaMv = VBeta;
+	_vPrimeMv = VPrime;
+	_iSolarMa = ISolar;
+	_iBetaMa = IBeta;
 }
 
 String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (working backwards from most recent log)
