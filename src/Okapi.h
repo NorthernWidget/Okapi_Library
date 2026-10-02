@@ -150,7 +150,7 @@ class Okapi : public NW_Logger
 		// --- PascalCase names, deprecated 2026-09-23: forwarders for one release ---
 		[[deprecated("Use logStr()")]] int LogStr(String Val) { return logStr(Val); }
 		[[deprecated("Use readStr()")]] String ReadStr(uint8_t LineIndex, uint32_t DataIndex) { return readStr(LineIndex, DataIndex); }
-		[[deprecated("Use run()")]] void Run(String (*Update)(void), unsigned long LogInterval) { run(Update, LogInterval); }
+		[[deprecated("Use run()")]] void Run(String (*Update)(void), unsigned long _logInterval) { run(Update, _logInterval); }
 		[[deprecated("Use getVoltage()")]] float GetVoltage(uint8_t Pin) { return getVoltage(Pin); }
 		[[deprecated("Use setVoltageRaw()")]] uint8_t SetVoltageRaw(uint16_t Val, bool Gain = GAIN_1X) { return setVoltageRaw(Val, Gain); }
 		[[deprecated("Use setVoltage()")]] uint8_t SetVoltage(float Val) { return setVoltage(Val); }
@@ -204,7 +204,7 @@ class Okapi : public NW_Logger
 		float _vPrimeMv = NW_ERROR;   ///< Prime rail voltage from the last readOnBoard() [mV]
 		float _iSolarMa = NW_ERROR;   ///< Solar current from the last readOnBoard() [mA]
 		float _iBetaMa = NW_ERROR;    ///< Beta current from the last readOnBoard() [mA]
-		const String LibVersion = OKAPI_LIBRARY_VERSION;
+		const String libVersion = OKAPI_LIBRARY_VERSION;
 
 	protected:
 		void sleepNow() override;
@@ -215,20 +215,20 @@ class Okapi : public NW_Logger
 		uint8_t chipFaults();    // Okapi's chip-fault bits for Block 0: SDCard, Clock, BME280, SensorBus, Charger, Backup
 		void fillPages();        // Page 2 and 3 from the logger's own readings, then endReading()
 
-		MCP4725 DAC; //Instatiate DAC
-		Adafruit_ADS1115 ADC_OB; //Initialize on board (power moitoring) ADC
-		Adafruit_ADS1115 ADC_Ext;  //Initialize external (sensor) ADC
-		MCP23018 IO;
+		MCP4725 _dac; //Instatiate DAC
+		Adafruit_ADS1115 _adcOb; //Initialize on board (power moitoring) ADC
+		Adafruit_ADS1115 _adcExt;  //Initialize external (sensor) ADC
+		MCP23018 _io;
 
-		float PowerState = 0; //Keep track of what power mode the system is using when waking from sleep
+		float _powerState = 0; //Keep track of what power mode the system is using when waking from sleep
 
-		board Model;
-		build Specs;
+		board _model;
+		build _specs;
 
-		uint16_t LogCountPush = 5; //Number of logs to take before sending data off
-		uint16_t LogCount = 0; //Number of logs since last data write
-		uint16_t Index = 0; //Index of data entry USE???? FIX!
-		uint32_t LastSDIndex = 0; //Index as last data dump
+		uint16_t _logCountPush = 5; //Number of logs to take before sending data off
+		uint16_t _logCount = 0; //Number of logs since last data write
+		uint16_t _index = 0; //Index of data entry USE???? FIX!
+		uint32_t _lastSdIndex = 0; //Index as last data dump
 };
 
 #endif

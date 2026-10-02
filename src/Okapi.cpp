@@ -3,11 +3,11 @@
 #include <Okapi.h>
 #include <Arduino.h>
 
-Okapi::Okapi(board Model_, build Specs_) : ADC_OB(0x48), ADC_Ext(0x49), IO(0x20)
+Okapi::Okapi(board Model_, build Specs_) : _adcOb(0x48), _adcExt(0x49), _io(0x20)
 {
-	NumADR_OB = 6; //Clock, IO Expander, ADC_OB, ADC_Ext, DAC, BME
+	_numAdrOb = 6; //Clock, IO Expander, ADC_OB, ADC_Ext, DAC, BME
 	uint8_t ob[6] = {0x68, 0x20, 0x48, 0x49, 0x62, 0x77};
-	memcpy(I2C_ADR_OB, ob, 6);
+	memcpy(_i2cAdrOb, ob, 6);
 	// VSwitch_Pin = 3;
 	// VSwitch_Pin = 12; //DEBUG!??
 
@@ -34,8 +34,8 @@ Okapi::Okapi(board Model_, build Specs_) : ADC_OB(0x48), ADC_Ext(0x49), IO(0x20)
 	// }
 
 
-	Model = Model_; //Store model info locally
-	Specs = Specs_; //Store build info locally
+	_model = Model_; //Store model info locally
+	_specs = Specs_; //Store build info locally
 }
 
 bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
@@ -60,23 +60,23 @@ bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
 	acceptAddresses(Vals, NumVals, header_); //The sketch's sensor addresses (bounded copy) and header
 
 	i2cState(INTERNAL);
-	RTC.begin(); //Initalize RTC
-	RTC.clearAlarm(); //
-	ADC_OB.begin();
-	ADC_Ext.begin();
-	DAC.begin(0x62);
-	DAC.SetRef(BUFFERED_VREF); //Set buffer configuration //FIX! Make variable if need to set greater than 4.096v?
+	_rtc.begin(); //Initalize RTC
+	_rtc.clearAlarm(); //
+	_adcOb.begin();
+	_adcExt.begin();
+	_dac.begin(0x62);
+	_dac.SetRef(BUFFERED_VREF); //Set buffer configuration //FIX! Make variable if need to set greater than 4.096v?
 	if(!bme280.begin(0x77)) { //Initalize onboard temp/pressure/RH sensor (BME280)
 		Serial.println("BME280 init: FAIL");
-		OnBoardError = true;
-		BMEError = true;
+		_onBoardError = true;
+		_bmeError = true;
 	}
 
 	Serial.begin(38400); //DEBUG!
 	Serial.print("Lib = ");
-	Serial.println(LibVersion);
+	Serial.println(libVersion);
 	bool schema1 = readIdentity(); //Serial number and hardware version from Page 0 (Schema 1), else the last 8 bytes (Schema 0)
-	if(!schema1) HWVersion = String(Model); //Schema 0: the model number the sketch declared
+	if(!schema1) _hwVersion = String(_model); //Schema 0: the model number the sketch declared
 	serialTimeSet(); //A YYMMDDHHMMSS string waiting on Serial sets the clock; then the timestamp
 	attachLoggerInterrupts(true); //LED pins, SD chip select, file times, the alarm and the button (PCINT)
 	attachExtInt(); //The external-interrupt counter, if setExtInt() named a pin
@@ -91,18 +91,18 @@ bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
 	ledReport(); //The self-test results on the RGB LED, then "Ready to Log"
 	//The logger's own report at boot, for its first status row: the first fault the
 	//self-tests found, else LoggingStarted (unit, kind 16).
-	if(SDCardMissing) Pages.latchFault(0x01);
-	else if(SDTestFailed) Pages.latchFault(0x05);
-	else if(ClockError) Pages.latchFault(0x21);
-	else if(BMEError) Pages.latchFault(0x41);
-	else if(SensorError) Pages.latchFault(0x61);
-	Pages.latchNotice(0xF0);
-	BootReport = Pages.report();
-	Pages.acknowledge();
-	NewLog = true; //Set flag to begin new log file
+	if(_sdCardMissing) _pages.latchFault(0x01);
+	else if(_sdTestFailed) _pages.latchFault(0x05);
+	else if(_clockError) _pages.latchFault(0x21);
+	else if(_bmeError) _pages.latchFault(0x41);
+	else if(_sensorError) _pages.latchFault(0x61);
+	_pages.latchNotice(0xF0);
+	_bootReport = _pages.report();
+	_pages.acknowledge();
+	_newLog = true; //Set flag to begin new log file
 
 	LED_Color(OFF);
-	return !(OnBoardError || SensorError || TimeError || SDCardMissing);
+	return !(_onBoardError || _sensorError || _timeError || _sdCardMissing);
 }
 
 // The data file's header row: the on-board columns, then the sketch's Header,
@@ -121,7 +121,7 @@ size_t Okapi::printDataRow(Print& out)
 	//reading: a row written to the card and to the monitor must not read the
 	//battery lines twice, and the two rows would otherwise differ.
 	size_t n = 0;
-	n += out.print(LogTimeDate);
+	n += out.print(_logTimeDate);
 	n += out.print(',');
 	n += bme280.printDataRow(out);
 	n += out.print(_rtcTemp);
@@ -182,17 +182,17 @@ void Okapi::readOnBoard()
 	// float VPrime = 0;
 	// float IBeta = 0;
 
-	float VBeta = ADC_OB.readADC_SingleEnded(0);
-	float VPrime = ADC_OB.readADC_SingleEnded(2);
+	float VBeta = _adcOb.readADC_SingleEnded(0);
+	float VPrime = _adcOb.readADC_SingleEnded(2);
 	digitalWrite(ADC_Sense_SW, LOW); //Enable reading of battery lines
 	VBeta = VBeta*0.1875;
 	VPrime = VPrime*0.1875;
 
 
-	float ISolar = ADC_OB.readADC_SingleEnded(1)*0.01875;  //FIX! Adjust after changing gain of amp??
-	float IBeta = (ADC_OB.readADC_SingleEnded(3)*0.1875 - 2500)/1.5;
+	float ISolar = _adcOb.readADC_SingleEnded(1)*0.01875;  //FIX! Adjust after changing gain of amp??
+	float IBeta = (_adcOb.readADC_SingleEnded(3)*0.1875 - 2500)/1.5;
 
-	float RTCTemp = RTC.getTemp();  //Get Temp from RTC
+	float RTCTemp = _rtc.getTemp();  //Get Temp from RTC
 	getTime(); //FIX!
 	// if(Model< Model_2v0) return LogTimeDate + "," + String(RTCTemp) + "," + String(VBeta) + ",";
 	_rtcTemp = RTCTemp;
@@ -209,9 +209,9 @@ String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (work
 	// SD.chdir("/"); //Return to root to define starting state
 	// IO.PinMode(6, OUTPUT, A); //DEBUG!
 	// IO.DigitalWrite(6, LOW, A); //DEBUG!
-	SD.chdir("/");  //The card's root
-	SD.chdir(SN);  //Move into this logger's folder, named by its serial number
-	File DataFile = SD.open(FileNameC, FILE_READ);
+	_sd.chdir("/");  //The card's root
+	_sd.chdir(_sn);  //Move into this logger's folder, named by its serial number
+	File DataFile = _sd.open(_fileNameC, FILE_READ);
 
 	// if the file is available, read from it:
 	if (DataFile) {
@@ -240,19 +240,19 @@ void Okapi::addDataPoint(String (*Update)(void)) //Reads new data and writes dat
 	Data = (*Update)(); //Run external update function
 	i2cState(INTERNAL);  //DEBUG!
 	bme280.begin(0x77); //DEBUG!
-	Data = getOnBoardVals() + Data + Note; //Prepend on board readings; Note column last
-	Note = ""; //One row's worth of notes
-	if(logStr(Data) != 0) Pages.latchNotice(0xF2); //RowNotWritten
-	LogCount++; //FIX??
+	Data = getOnBoardVals() + Data + _note; //Prepend on board readings; Note column last
+	_note = ""; //One row's worth of notes
+	if(logStr(Data) != 0) _pages.latchNotice(0xF2); //RowNotWritten
+	_logCount++; //FIX??
 	fillPages(); //Okapi's reading of itself: Page 2, Page 3, Block 0
 	reportRows(); //The status file: a row for the logger and every watched sensor with something to report
 }
 
 void Okapi::afterLogEvent() //After an alarm-driven row: the backhaul
 {
-	if(LogCount >= LogCountPush && PowerState == 0) {  //If enough logs have been recorded and main battery power is available - backhaul //REPLACE WITH TIMER TEST!
+	if(_logCount >= _logCountPush && _powerState == 0) {  //If enough logs have been recorded and main battery power is available - backhaul //REPLACE WITH TIMER TEST!
 	  //// Update conventions in MCP23018 library
-		IO.digitalWrite(FeatherEN, HIGH, MCP23018::Port::B); //Turn on Feather power 
+		_io.digitalWrite(FeatherEN, HIGH, MCP23018::Port::B); //Turn on Feather power 
 		////IO.digitalWrite(FeatherEN, HIGH, MCP23018::Ports::B); //Turn on Feather power 
 		// for(int i = 0; i < 10; i++) {  //DEBUG!
 		// 	Serial.println("START BACKHAUL"); //DEBUG!
@@ -269,12 +269,12 @@ void Okapi::afterLogEvent() //After an alarm-driven row: the backhaul
 		Serial.println("START BACKHAUL"); //DEBUG!
 		//Serial.println("MID BACKHAUL"); //DEBUG!
 		///*
-		for(int i = 0; i < LogCountPush; i++) { //Print out SD values
-			Serial.println(readStr(i, LastSDIndex));
+		for(int i = 0; i < _logCountPush; i++) { //Print out SD values
+			Serial.println(readStr(i, _lastSdIndex));
 		}
 		//*/
-		LastSDIndex = SDIndex; //copy new value over
-		LogCount = 0;
+		_lastSdIndex = _sdIndex; //copy new value over
+		_logCount = 0;
 		Serial.println("END BACKHAUL"); //DEBUG!
 		Timeout = millis();
 		while(digitalRead(FeatherGPIO) && (millis() - Timeout) < 180000); //Wait for completerion or for timeout (180 seconds -- takes 2G/3G longer)
@@ -288,13 +288,13 @@ uint8_t Okapi::setVoltageRaw(uint16_t Val, bool Gain)
 {
 	if(Val > 4095 || Val < 0) {
 		Serial.println("BANG!");
-		DAC.Sleep(ON); //Make device output open to avoid issues //FIX??
+		_dac.Sleep(ON); //Make device output open to avoid issues //FIX??
 		return 5; //Return out of range error
 	}
 	else {
 	// DAC.Sleep(OFF); //Make device is set to output
-	DAC.SetGain(Gain); //Set appropriate gain (default to 1x)
-	return DAC.setVoltage(Val); //Do not allow to set value to memory, return I2C status
+	_dac.SetGain(Gain); //Set appropriate gain (default to 1x)
+	return _dac.setVoltage(Val); //Do not allow to set value to memory, return I2C status
 	}
 }
 
@@ -302,29 +302,29 @@ uint8_t Okapi::setVoltage(float Val)  //Interpolated nearest value from float
 {
 	uint16_t BitValue = 0; //used to calculate the bit value to set the DAC to
 	if(Val > 5.0 || Val < 0.0) {
-		DAC.Sleep(ON); //Make device output open to avoid issues //FIX??
+		_dac.Sleep(ON); //Make device output open to avoid issues //FIX??
 		return 5; //Return out of range error
 	}
 	else if(Val >= 2.5) {
-		DAC.Sleep(OFF); //Make device is set to output
+		_dac.Sleep(OFF); //Make device is set to output
 		BitValue = floor(Val*819.2); //Set for 2x single multiple
 		if(BitValue > 4095) BitValue = 4095; //FIX?? Prevent wrap around error due to float rounding
-		DAC.SetGain(GAIN_2X); //Set 2x gain
-		return DAC.setVoltage(BitValue); //Return I2C status
+		_dac.SetGain(GAIN_2X); //Set 2x gain
+		return _dac.setVoltage(BitValue); //Return I2C status
 	}
 	else {
-		DAC.Sleep(OFF); //Make device is set to output
+		_dac.Sleep(OFF); //Make device is set to output
 		BitValue = floor(Val*1638.4); //Set for single multiple
 		if(BitValue > 4095) BitValue = 4095; //FIX?? Prevent wrap around error due to float rounding
-		DAC.SetGain(GAIN_1X); //Set unity gain
-		return DAC.setVoltage(BitValue); //Return I2C status
+		_dac.SetGain(GAIN_1X); //Set unity gain
+		return _dac.setVoltage(BitValue); //Return I2C status
 	}
 }
 
 float Okapi::getVoltage(uint8_t Pin)  //Get voltage external ADC from specified pin
 {
 	i2cState(INTERNAL);
-	float Val = ADC_Ext.readADC_SingleEnded(Pin)*0.1875;
+	float Val = _adcExt.readADC_SingleEnded(Pin)*0.1875;
 	i2cState(EXTERNAL);
 	return Val;
 }
@@ -380,10 +380,10 @@ void Okapi::i2cState(bool State)
 uint8_t Okapi::chipFaults()
 {
 	uint8_t f = 0;
-	if(SDCardMissing || SDTestFailed) f |= 0x01;
-	if(ClockError) f |= 0x02;
-	if(BMEError) f |= 0x04;
-	if(SensorError) f |= 0x08;
+	if(_sdCardMissing || _sdTestFailed) f |= 0x01;
+	if(_clockError) f |= 0x02;
+	if(_bmeError) f |= 0x04;
+	if(_sensorError) f |= 0x08;
 	return f;
 }
 
@@ -392,18 +392,18 @@ uint8_t Okapi::chipFaults()
 // (which of VBeta and VPrime is the LiPo, the solar scaling) and stays zero.
 void Okapi::fillPages()
 {
-	Pages.beginReading();
-	if(!BMEError) {
-		Pages.put16(0x50, (uint16_t)(int16_t)(bme280.getTemperature() * 100.0));
-		Pages.put16(0x52, (uint16_t)(bme280.getHumidity() * 100.0));
-		Pages.put32(0x54, (uint32_t)(bme280.getPressure() * 100.0));
+	_pages.beginReading();
+	if(!_bmeError) {
+		_pages.put16(0x50, (uint16_t)(int16_t)(bme280.getTemperature() * 100.0));
+		_pages.put16(0x52, (uint16_t)(bme280.getHumidity() * 100.0));
+		_pages.put32(0x54, (uint32_t)(bme280.getPressure() * 100.0));
 	}
-	Pages.put32(0x58, clockUnix()); //Clock: Unix seconds
-	Pages.put16(0x5C, (uint16_t)(int16_t)(RTC.getTemp() * 100.0));
-	Pages.put16(0x60, getExtIntCount(false));
-	Pages.put16(0x62, FileNum);
-	Pages.put32(0x64, LogInterval);
-	Pages.endReading(chipFaults());
+	_pages.put32(0x58, clockUnix()); //Clock: Unix seconds
+	_pages.put16(0x5C, (uint16_t)(int16_t)(_rtc.getTemp() * 100.0));
+	_pages.put16(0x60, getExtIntCount(false));
+	_pages.put16(0x62, _fileNum);
+	_pages.put32(0x64, _logInterval);
+	_pages.endReading(chipFaults());
 }
 
 static const char* const okapiChips[] = {"SDCard", "Clock", "BME280", "SensorBus", "Charger", "Backup"};
@@ -412,10 +412,10 @@ static const char* const okapiChipWords[] = {"ClockSet"};   //kind 16 on Clock (
 
 size_t Okapi::printStatus(Print& out, bool boot)
 {
-	const NW_Report& r = boot ? BootReport : Pages.report();
+	const NW_Report& r = boot ? _bootReport : _pages.report();
 	const char* const* words = okapiWords; uint8_t n = 3;
 	if(r.chip() == 1) { words = okapiChipWords; n = 1; }
-	return Pages.printSnapshot(out, okapiChips, 6, LibVersion.c_str(), &r, words, n, OKAPI_LIBRARY_COMMIT, "", SKETCH_COMMIT); //A logger: its library is its firmware; the sketch stands where a library would
+	return _pages.printSnapshot(out, okapiChips, 6, libVersion.c_str(), &r, words, n, OKAPI_LIBRARY_COMMIT, "", SKETCH_COMMIT); //A logger: its library is its firmware; the sketch stands where a library would
 }
 
 void Okapi::sleepNow()         // here we put the arduino to sleep
@@ -541,7 +541,7 @@ void Okapi::turnOnSDcard()
 	// digitalWrite(SD_CS, HIGH);
 	// digitalWrite(Ext3v3Ctrl, HIGH);  //turn off external 3v3 rail
 	// digitalWrite(BatSwitch, HIGH); //Turn off battery connection to sense divider
-	PowerState = powerAuto(); //Fix??
+	_powerState = powerAuto(); //Fix??
 	// PowerOB(ON); //Turn on battery connection to sense divider
 	// powerAux(ON); //turn on external 3v3 rail
 	delay(6);                                            // let the card settle
@@ -557,6 +557,6 @@ void Okapi::turnOnSDcard()
 	// digitalWrite(Ext3v3Ctrl, LOW); //MODEL <= v1
 	delay(10);
 	// digitalWrite(3, HIGH); //DEBUG!
-	SD.begin(SD_CS, SD_SCK_MHZ(8));
+	_sd.begin(SD_CS, SD_SCK_MHZ(8));
 	// digitalWrite(3, LOW); //DEBUG!
 }
