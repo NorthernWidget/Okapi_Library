@@ -90,12 +90,20 @@ class Okapi : public NW_Logger
 		bool beginBoard(uint8_t *Vals, uint8_t NumVals) override;
 		using NW_Logger::begin; ///< begin(header) with no external sensors
     /**
-     * @brief Read one row back from the data file, for the backhaul
+     * @brief Print one row of the data file into any Print, for the backhaul
      *
-     * @param[in] LineIndex: The desired line number, counted from DataIndex
-     * @param[in] DataIndex: The byte at which to start in the file
+     * @details Reads the row off the card a character at a time and writes each
+     * one straight out, so a row travels from the card to the radio without
+     * being held in RAM (LIBRARY-DESIGN.md sections 14 and 15). The row's
+     * newline is not printed; its carriage return, which the logger wrote, is.
+     *
+     * @param[in] out Where to print: Serial to reach the Feather, any Print.
+     * @param[in] lineIndex The desired line number, counted from dataIndex
+     * @param[in] dataIndex The byte at which to start in the file
+     * @return Bytes printed. 0 when the file would not open, or when the row is
+     *         not there.
      */
-		String readStr(uint8_t LineIndex, uint32_t DataIndex);
+		size_t printRow(Print& out, uint8_t lineIndex, uint32_t dataIndex);
     /**
      * @brief Read voltage from the external 16-bit ADC
      * @param[in] Pin (range 0-3) -- which pin to read?

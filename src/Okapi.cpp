@@ -203,35 +203,32 @@ void Okapi::readOnBoard()
 	_iBetaMa = IBeta;
 }
 
-String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (working backwards from most recent log)
+size_t Okapi::printRow(Print& out, uint8_t lineIndex, uint32_t dataIndex)
 {
-	// Serial.println(Val); //Echo to serial monitor
-	// SD.begin(SD_CS); //DEBUG!
-	// SD.chdir("/"); //Return to root to define starting state
-	// IO.PinMode(6, OUTPUT, A); //DEBUG!
-	// IO.DigitalWrite(6, LOW, A); //DEBUG!
 	_sd.chdir("/");  //The card's root
 	_sd.chdir(_sn);  //Move into this logger's folder, named by its serial number
 	File DataFile = _sd.open(_fileNameC, FILE_READ);
+	if(!DataFile) return 0;
 
-	// if the file is available, read from it:
-	if (DataFile) {
-		DataFile.seek(DataIndex); //Run to starting location
-		for(int i = 0; i < LineIndex; i++) {
-			DataFile.readStringUntil('\n'); //Read out previous lines
+	DataFile.seek(dataIndex); //Run to starting location
+	for(uint8_t i = 0; i < lineIndex; i++) {  //Read out previous lines
+		int c;
+		while((c = DataFile.read()) >= 0 && c != '\n');
+		if(c < 0) {  //The file ended before the row asked for
+			DataFile.close();
+			return 0;
 		}
-		return DataFile.readStringUntil('\n'); //Return desired line
-	   // return 0;
-	}
-	// if the file isn't open, pop up an error:
-	else {
-	   // return -1;
 	}
 
-	DataFile.close();
-
-	// IO.PinMode(6, OUTPUT, A); //DEBUG!
-	// IO.DigitalWrite(6, HIGH, A); //DEBUG!
+	//The row itself, straight out: a character off the card is a character into
+	//out, and nothing holds the row in between. The newline is where the row
+	//ends and is not printed, which is what readStringUntil() did.
+	size_t n = 0;
+	int c;
+	while((c = DataFile.read()) >= 0 && c != '\n') n += out.write((uint8_t)c);
+	DataFile.close();  //Nothing else closes it: this SdFat is built with
+	                   //DESTRUCTOR_CLOSES_FILE 0
+	return n;
 }
 
 
@@ -269,7 +266,8 @@ void Okapi::afterLogEvent() //After an alarm-driven row: the backhaul
 		//Serial.println("MID BACKHAUL"); //DEBUG!
 		///*
 		for(int i = 0; i < _logCountPush; i++) { //Print out SD values
-			Serial.println(readStr(i, _lastSdIndex));
+			printRow(Serial, i, _lastSdIndex);
+			Serial.println();
 		}
 		//*/
 		_lastSdIndex = _sdIndex; //copy new value over
