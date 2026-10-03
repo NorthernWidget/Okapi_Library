@@ -76,7 +76,8 @@ bool Okapi::beginBoard(uint8_t *Vals, uint8_t NumVals)
 	Serial.print("Lib = ");
 	Serial.println(libVersion);
 	bool schema1 = readIdentity(); //Serial number and hardware version from Page 0 (Schema 1), else the last 8 bytes (Schema 0)
-	if(!schema1) _hwVersion = String(_model); //Schema 0: the model number the sketch declared
+	//Schema 0: the model number the sketch declared
+	if(!schema1) snprintf(_hwVersion, sizeof(_hwVersion), "%u", (unsigned)_model);
 	serialTimeSet(); //A YYMMDDHHMMSS string waiting on Serial sets the clock; then the timestamp
 	attachLoggerInterrupts(true); //LED pins, SD chip select, file times, the alarm and the button (PCINT)
 	attachExtInt(); //The external-interrupt counter, if setExtInt() named a pin
