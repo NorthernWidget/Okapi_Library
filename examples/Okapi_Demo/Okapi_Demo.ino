@@ -2,30 +2,27 @@
  * Okapi_Demo
  *
  * Minimal demonstration sketch for the Okapi data logger library.
- * Initializes the logger, then logs on-board sensor data (RTC,
- * temperature, pressure, voltages) plus any string returned by
- * the update() function, at a 60-second interval.
+ * The logger owns the loop: it reads its own on-board channels (RTC
+ * temperature, pressure, rail voltages, solar current) and every sensor
+ * watch() gave it, and writes one row per interval.
  *
- * Replace the body of update() with calls to your external sensors.
+ * Add a sensor with one more watch() call. It states the sensor, where it
+ * is and its column order, and the logger writes the file's header and each
+ * row from it: nothing here composes a string.
  */
 
 #include <Okapi.h>
 
 Okapi logger;
 
-String update() {
-  // Return a comma-separated string of external sensor readings.
-  // Example: return myExternalSensor.getString();
-  return "";
-}
-
 void setup() {
   Serial.begin(38400);
-  if (!logger.begin("ExternalData,")) {
+  // logger.watch(mySensor);   // one line per external sensor
+  if (!logger.begin()) {
     Serial.println("begin() reported an error; check LED color for details.");
   }
 }
 
 void loop() {
-  logger.run(update, 60);
+  logger.run(60);   // seconds between readings
 }
