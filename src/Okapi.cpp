@@ -414,7 +414,7 @@ size_t Okapi::printStatus(Print& out, bool boot)
 	const NW_Report& r = boot ? _bootReport : _pages.report();
 	const char* const* words = okapiWords; uint8_t n = 3;
 	if(r.chip() == 1) { words = okapiChipWords; n = 1; }
-	return _pages.printSnapshot(out, okapiChips, 6, libVersion.c_str(), &r, words, n, OKAPI_LIBRARY_COMMIT, "", SKETCH_COMMIT); //A logger: its library is its firmware; the sketch stands where a library would
+	return _pages.printSnapshot(out, okapiChips, 6, libVersion, &r, words, n, OKAPI_LIBRARY_COMMIT, "", SKETCH_COMMIT); //A logger: its library is its firmware; the sketch stands where a library would
 }
 
 void Okapi::sleepNow()         // here we put the arduino to sleep

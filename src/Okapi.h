@@ -202,7 +202,7 @@ class Okapi : public NW_Logger
 		float _vPrimeMv = NW_ERROR;   ///< Prime rail voltage from the last readOnBoard() [mV]
 		float _iSolarMa = NW_ERROR;   ///< Solar current from the last readOnBoard() [mA]
 		float _iBetaMa = NW_ERROR;    ///< Beta current from the last readOnBoard() [mA]
-		const String libVersion = OKAPI_LIBRARY_VERSION;
+		static constexpr const char* libVersion = OKAPI_LIBRARY_VERSION;
 
 	protected:
 		void sleepNow() override;
