@@ -248,6 +248,18 @@ void Okapi::addDataPoint(String (*Update)(void)) //Reads new data and writes dat
 	reportRows(); //The status file: a row for the logger and every watched sensor with something to report
 }
 
+void Okapi::addDataPoint() //The streaming row: this board's bus dance around it
+{
+	i2cState(EXTERNAL);
+	readSensors();
+	i2cState(INTERNAL);  //DEBUG!
+	bme280.begin(0x77); //DEBUG!
+	if(logRow() != 0) _pages.latchNotice(0xF2); //RowNotWritten
+	_logCount++; //FIX??
+	fillPages(); //Okapi's reading of itself: Page 2, Page 3, Block 0
+	reportRows(); //The status file: a row for the logger and every watched sensor with something to report
+}
+
 void Okapi::afterLogEvent() //After an alarm-driven row: the backhaul
 {
 	if(_logCount >= _logCountPush && _powerState == 0) {  //If enough logs have been recorded and main battery power is available - backhaul //REPLACE WITH TIMER TEST!
