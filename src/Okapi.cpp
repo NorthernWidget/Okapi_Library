@@ -38,7 +38,7 @@ Okapi::Okapi(board Model_, build Specs_) : _adcOb(0x48), _adcExt(0x49), _io(0x20
 	_specs = Specs_; //Store build info locally
 }
 
-bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
+bool Okapi::beginBoard(uint8_t *Vals, uint8_t NumVals)
 {
 	pinMode(C0, OUTPUT);  //Allow for high power control
 	pinMode(C1, OUTPUT);
@@ -57,7 +57,7 @@ bool Okapi::begin(uint8_t *Vals, uint8_t NumVals, String header_)
 	digitalWrite(Sw_Bus_Sec, HIGH);
 	delay(500);
 
-	acceptAddresses(Vals, NumVals, header_); //The sketch's sensor addresses (bounded copy) and header
+	acceptAddresses(Vals, NumVals); //The watched sensors' addresses (bounded copy)
 
 	i2cState(INTERNAL);
 	_rtc.begin(); //Initalize RTC
@@ -233,20 +233,6 @@ String Okapi::readStr(uint8_t LineIndex, uint32_t DataIndex)  //Pass index (work
 	// IO.DigitalWrite(6, HIGH, A); //DEBUG!
 }
 
-void Okapi::addDataPoint(String (*Update)(void)) //Reads new data and writes data to SD
-{
-	String Data = "";
-	i2cState(EXTERNAL);
-	Data = (*Update)(); //Run external update function
-	i2cState(INTERNAL);  //DEBUG!
-	bme280.begin(0x77); //DEBUG!
-	Data = getOnBoardVals() + Data + _note; //Prepend on board readings; Note column last
-	_note = ""; //One row's worth of notes
-	if(logStr(Data) != 0) _pages.latchNotice(0xF2); //RowNotWritten
-	_logCount++; //FIX??
-	fillPages(); //Okapi's reading of itself: Page 2, Page 3, Block 0
-	reportRows(); //The status file: a row for the logger and every watched sensor with something to report
-}
 
 void Okapi::addDataPoint() //The streaming row: this board's bus dance around it
 {

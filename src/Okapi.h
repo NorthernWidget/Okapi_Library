@@ -62,7 +62,6 @@ enum temp_val
  * Block 1, power, waits on the power model and stays zero).
  *
  * Names are camelCase as of 2026-09-23; the PascalCase names stay as
- * deprecated forwarders for one release.
  */
 class Okapi : public NW_Logger
 {
@@ -88,7 +87,7 @@ class Okapi : public NW_Logger
      * @param[in] Header_: A header string for the data file
      * @return true when the self-tests found nothing wrong
      */
-		bool begin(uint8_t *Vals, uint8_t NumVals, String header_) override;
+		bool beginBoard(uint8_t *Vals, uint8_t NumVals) override;
 		using NW_Logger::begin; ///< begin(header) with no external sensors
     /**
      * @brief Read one row back from the data file, for the backhaul
@@ -117,7 +116,6 @@ class Okapi : public NW_Logger
      * @brief Writes date/time, on-board sensors, and external string to SD
      * @param *Update: External update function from Arduino sketch
      */
-		void addDataPoint(String (*Update)(void)) override;
     /**
      * @brief Obtain date/time, P/T/RH, temperatures, and voltages from board
      */
@@ -163,22 +161,6 @@ class Okapi : public NW_Logger
 		const char* name() const override { return "Okapi"; }
 		size_t printStatus(Print& out, bool boot = false) override;
 
-		// --- PascalCase names, deprecated 2026-09-23: forwarders for one release ---
-		[[deprecated("Use logStr()")]] int LogStr(String Val) { return logStr(Val); }
-		[[deprecated("Use readStr()")]] String ReadStr(uint8_t LineIndex, uint32_t DataIndex) { return readStr(LineIndex, DataIndex); }
-		[[deprecated("Use run()")]] void Run(String (*Update)(void), unsigned long _logInterval) { run(Update, _logInterval); }
-		[[deprecated("Use getVoltage()")]] float GetVoltage(uint8_t Pin) { return getVoltage(Pin); }
-		[[deprecated("Use setVoltageRaw()")]] uint8_t SetVoltageRaw(uint16_t Val, bool Gain = GAIN_1X) { return setVoltageRaw(Val, Gain); }
-		[[deprecated("Use setVoltage()")]] uint8_t SetVoltage(float Val) { return setVoltage(Val); }
-		[[deprecated("Use addDataPoint()")]] void AddDataPoint(String (*Update)(void)) { addDataPoint(Update); }
-		[[deprecated("Use getOnBoardVals()")]] String GetOnBoardVals() { return getOnBoardVals(); }
-		[[deprecated("Use initLogFile()")]] void InitLogFile() { initLogFile(); }
-		[[deprecated("Use resetWDT()")]] void ResetWD() { resetWDT(); }
-		[[deprecated("Use powerAuto()")]] uint8_t PowerAuto() { return powerAuto(); }
-		[[deprecated("Use powerAux()")]] void PowerAux(uint8_t State) { powerAux(State); }
-		[[deprecated("Use i2cState()")]] void I2CState(bool State) { i2cState(State); }
-
-    /// USART Transmit
 		uint8_t TX = 11; //ADD TO DOCUMENTATION!
     /// USART Receive
 		uint8_t RX = 10; //ADD TO DOCUMENTATION!
