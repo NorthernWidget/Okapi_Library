@@ -239,7 +239,7 @@ An Arduino-compatible library for utilizing the basic and logging features of th
 
 Data-logger management. Basic operations, power management, on-board sensing, and links to external devices. Manages logging, power, telemetry, and on-board sensing for the Okapi data logger. Supports solar charging, Particle Boron telemetry, external interrupt counting, RTC-driven sleep/wake cycles, and SD-card data logging.
 
-Since 2026-09-23 Okapi is built on <span class="p">[</span><span class="nv">NW_Logger</span><span class="p">](</span><span class="sx">https://github.com/NorthernWidget/NW_Logger</span><span class="p">)</span>, the logger core it shares with Margay. That gives it Margay's card layout (<span class="sb">`/&lt;SN&gt;/log00001.csv`</span> and <span class="sb">`sta00001.csv`</span>, <span class="sb">`HWTest.txt`</span>; the old <span class="sb">`NW/&lt;SN&gt;/Logs/LogN.txt`</span> is gone), the status file with <span class="sb">`watch(sensor)`</span>, <span class="sb">`note(word)`</span> and the Note column, its serial number from Page 0 when the board is provisioned (NW-Provision) and from the last 8 bytes of EEPROM otherwise, and the camelCase names (<span class="sb">`run`</span>, <span class="sb">`logStr`</span>, <span class="sb">`addDataPoint`</span>, <span class="sb">`initLogFile`</span>, <span class="sb">`resetWDT`</span>, <span class="sb">`powerAuto`</span>, <span class="sb">`powerAux`</span>, <span class="sb">`i2cState`</span>, <span class="sb">`getVoltage`</span>, <span class="sb">`setVoltage`</span>, <span class="sb">`readStr`</span>). The PascalCase names still compile as deprecated forwarders for one release. <span class="sb">`begin()`</span> still returns whether the self-tests passed.
+Since 2026-09-23 Okapi is built on <span class="p">[</span><span class="nv">NW_Logger</span><span class="p">](</span><span class="sx">https://github.com/NorthernWidget/NW_Logger</span><span class="p">)</span>, the logger core it shares with Margay. That gives it Margay's card layout (<span class="sb">`/&lt;SN&gt;/log00001.csv`</span> and <span class="sb">`sta00001.csv`</span>, <span class="sb">`HWTest.txt`</span>; the old <span class="sb">`NW/&lt;SN&gt;/Logs/LogN.txt`</span> is gone), the status file with <span class="sb">`watch(sensor)`</span>, <span class="sb">`note(word)`</span> and the Note column, its serial number from Page 0 when the board is provisioned (NW-Provision) and from the last 8 bytes of EEPROM otherwise, and the camelCase names (<span class="sb">`run`</span>, <span class="sb">`addDataPoint`</span>, <span class="sb">`initLogFile`</span>, <span class="sb">`resetWDT`</span>, <span class="sb">`powerAuto`</span>, <span class="sb">`powerAux`</span>, <span class="sb">`i2cState`</span>, <span class="sb">`getVoltage`</span>, <span class="sb">`setVoltage`</span>). The PascalCase names are gone rather than deprecated: nothing is deployed yet, so callers migrate forward. <span class="sb">`begin()`</span> still returns whether the self-tests passed.
 
 <span class="gs">**Installation:**</span> included in <span class="p">[</span><span class="nv">NorthernWidget-libraries</span><span class="p">](</span><span class="sx">https://github.com/NorthernWidget/NorthernWidget-libraries</span><span class="p">)</span>.
 
@@ -248,23 +248,20 @@ Since 2026-09-23 Okapi is built on <span class="p">[</span><span class="nv">NW_L
 </span>
 <span class="n">Okapi</span> <span class="n">logger</span><span class="p">;</span>
 
-<span class="n">String</span> <span class="nf">update</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Return a comma-separated string of external sensor readings.</span>
-  <span class="c1">// Example: return myExternalSensor.getString();</span>
-  <span class="k">return</span> <span class="s">""</span><span class="p">;</span>
-<span class="p">}</span>
-
 <span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
   <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">38400</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">logger</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"ExternalData,"</span><span class="p">))</span> <span class="p">{</span>
+  <span class="c1">// logger.watch(mySensor);   // one line per external sensor</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">logger</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span> <span class="p">{</span>
     <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"begin() reported an error; check LED color for details."</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">logger</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+  <span class="n">logger</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="mi">60</span><span class="p">);</span>   <span class="c1">// seconds between readings</span>
 <span class="p">}</span>
 </code></pre></div></div>
+
+<p>Add a sensor with one more <code class="language-plaintext highlighter-rouge">watch()</code> call. That line states the sensor, where it is and its column order, and the logger writes the file’s header row and every data row from the sensors it holds, straight into the open file. No row is composed in RAM, and a sketch keeps no header and no <code class="language-plaintext highlighter-rouge">update()</code> function (see <a href="https://github.com/NorthernWidget/NW-Device-Specification/blob/master/LIBRARY-DESIGN.md">LIBRARY-DESIGN.md</a> section 14).</p>
 
 <p>See <a href="examples/">examples/</a> for this demo.</p>
 
@@ -273,7 +270,7 @@ Since 2026-09-23 Okapi is built on <span class="p">[</span><span class="nv">NW_L
 
 <hr />
 
-<p>Updated on 2026-09-23 at 22:44:32 +0000</p>
+<p>Updated on 2026-10-04 at 04:51:38 +0000</p>
 
         
       </section>

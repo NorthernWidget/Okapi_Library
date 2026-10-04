@@ -222,7 +222,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-attributes">Public Attributes</a></li><li><a href="#detailed-description">Detailed Description</a></li><li><a href="#public-functions-documentation">Public Functions Documentation</a><ul><li><a href="#function-okapi">function Okapi</a></li><li><a href="#function-begin">function begin</a></li><li><a href="#function-readstr">function readStr</a></li><li><a href="#function-getvoltage">function getVoltage</a></li><li><a href="#function-setvoltageraw">function setVoltageRaw</a></li><li><a href="#function-setvoltage">function setVoltage</a></li><li><a href="#function-adddatapoint">function addDataPoint</a></li><li><a href="#function-getonboardvals">function getOnBoardVals</a></li><li><a href="#function-powerauto">function powerAuto</a></li><li><a href="#function-poweraux">function powerAux</a></li><li><a href="#function-i2cstate">function i2cState</a></li><li><a href="#function-name">function name</a></li><li><a href="#function-printstatus">function printStatus</a></li><li><a href="#function-logstr">function LogStr</a></li><li><a href="#function-readstr-1">function ReadStr</a></li><li><a href="#function-run">function Run</a></li><li><a href="#function-getvoltage-1">function GetVoltage</a></li><li><a href="#function-setvoltageraw-1">function SetVoltageRaw</a></li><li><a href="#function-setvoltage-1">function SetVoltage</a></li><li><a href="#function-adddatapoint-1">function AddDataPoint</a></li><li><a href="#function-getonboardvals-1">function GetOnBoardVals</a></li><li><a href="#function-initlogfile">function InitLogFile</a></li><li><a href="#function-resetwd">function ResetWD</a></li><li><a href="#function-powerauto-1">function PowerAuto</a></li><li><a href="#function-poweraux-1">function PowerAux</a></li><li><a href="#function-i2cstate-1">function I2CState</a></li></ul></li><li><a href="#public-attributes-documentation">Public Attributes Documentation</a><ul><li><a href="#variable-tx">variable TX</a></li><li><a href="#variable-rx">variable RX</a></li><li><a href="#variable-c0">variable C0</a></li><li><a href="#variable-c1">variable C1</a></li><li><a href="#variable-sw_bus_prime">variable Sw_Bus_Prime</a></li><li><a href="#variable-sw_bus_sec">variable Sw_Bus_Sec</a></li><li><a href="#variable-pg_3v3_core">variable PG_3v3_Core</a></li><li><a href="#variable-featheren">variable FeatherEN</a></li><li><a href="#variable-d0">variable D0</a></li><li><a href="#variable-d1">variable D1</a></li><li><a href="#variable-d2">variable D2</a></li><li><a href="#variable-d3">variable D3</a></li><li><a href="#variable-adc_sense_sw">variable ADC_Sense_SW</a></li><li><a href="#variable-featherrts">variable FeatherRTS</a></li><li><a href="#variable-feathercts">variable FeatherCTS</a></li><li><a href="#variable-feathergpio">variable FeatherGPIO</a></li><li><a href="#variable-cs_ext">variable CS_Ext</a></li><li><a href="#variable-globalint">variable GlobalInt</a></li><li><a href="#variable-libversion">variable LibVersion</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#public-functions">Public Functions</a></li><li><a href="#public-attributes">Public Attributes</a></li><li><a href="#detailed-description">Detailed Description</a></li><li><a href="#public-functions-documentation">Public Functions Documentation</a><ul><li><a href="#function-okapi">function Okapi</a></li><li><a href="#function-beginboard">function beginBoard</a></li><li><a href="#function-printrow">function printRow</a></li><li><a href="#function-getvoltage">function getVoltage</a></li><li><a href="#function-setvoltageraw">function setVoltageRaw</a></li><li><a href="#function-setvoltage">function setVoltage</a></li><li><a href="#function-readonboard">function readOnBoard</a></li><li><a href="#function-printdataheader">function printDataHeader</a></li><li><a href="#function-printdatarow">function printDataRow</a></li><li><a href="#function-defaultaddress">function defaultAddress</a></li><li><a href="#function-wake">function wake</a></li><li><a href="#function-acquire">function acquire</a></li><li><a href="#function-printnote">function printNote</a></li><li><a href="#function-adddatapoint">function addDataPoint</a></li><li><a href="#function-powerauto">function powerAuto</a></li><li><a href="#function-poweraux">function powerAux</a></li><li><a href="#function-i2cstate">function i2cState</a></li><li><a href="#function-name">function name</a></li><li><a href="#function-printstatus">function printStatus</a></li></ul></li><li><a href="#public-attributes-documentation">Public Attributes Documentation</a><ul><li><a href="#variable-tx">variable TX</a></li><li><a href="#variable-rx">variable RX</a></li><li><a href="#variable-c0">variable C0</a></li><li><a href="#variable-c1">variable C1</a></li><li><a href="#variable-sw_bus_prime">variable Sw_Bus_Prime</a></li><li><a href="#variable-sw_bus_sec">variable Sw_Bus_Sec</a></li><li><a href="#variable-pg_3v3_core">variable PG_3v3_Core</a></li><li><a href="#variable-featheren">variable FeatherEN</a></li><li><a href="#variable-d0">variable D0</a></li><li><a href="#variable-d1">variable D1</a></li><li><a href="#variable-d2">variable D2</a></li><li><a href="#variable-d3">variable D3</a></li><li><a href="#variable-adc_sense_sw">variable ADC_Sense_SW</a></li><li><a href="#variable-featherrts">variable FeatherRTS</a></li><li><a href="#variable-feathercts">variable FeatherCTS</a></li><li><a href="#variable-feathergpio">variable FeatherGPIO</a></li><li><a href="#variable-cs_ext">variable CS_Ext</a></li><li><a href="#variable-globalint">variable GlobalInt</a></li><li><a href="#variable-_rtctemp">variable _rtcTemp</a></li><li><a href="#variable-_vbetamv">variable _vBetaMv</a></li><li><a href="#variable-_vprimemv">variable _vPrimeMv</a></li><li><a href="#variable-_isolarma">variable _iSolarMa</a></li><li><a href="#variable-_ibetama">variable _iBetaMa</a></li><li><a href="#variable-libversion">variable libVersion</a></li></ul></li></ul>
             </nav>
           </aside>
         
@@ -248,11 +248,11 @@
     </tr>
     <tr>
       <td>bool</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-begin">begin</a></strong>(uint8<em>t * Vals, uint8_t NumVals, String header</em>) override<br />Begin with a list of attached I2C devices.</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-beginboard">beginBoard</a></strong>(uint8_t * Vals, uint8_t NumVals) override<br />Begin with a list of attached I2C devices.</td>
     </tr>
     <tr>
-      <td>String</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-readstr">readStr</a></strong>(uint8_t LineIndex, uint32_t DataIndex)<br />&lt; begin(header) with no external sensors</td>
+      <td>size_t</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-printrow">printRow</a></strong>(Print &amp; out, uint8_t lineIndex, uint32_t dataIndex)<br />&lt; begin(header) with no external sensors</td>
     </tr>
     <tr>
       <td>float</td>
@@ -268,11 +268,35 @@
     </tr>
     <tr>
       <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-adddatapoint">addDataPoint</a></strong>(String(*)(void) Update) override<br />Writes date/time, on-board sensors, and external string to SD.</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-readonboard">readOnBoard</a></strong>() override<br />Writes date/time, on-board sensors, and external string to SD.</td>
     </tr>
     <tr>
-      <td>String</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-getonboardvals">getOnBoardVals</a></strong>()<br />Obtain date/time, P/T/RH, temperatures, and voltages from board.</td>
+      <td>size_t</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-printdataheader">printDataHeader</a></strong>(Print &amp; out) override<br />Print the logger’s own data columns: the timestamp and the on-board sensors.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-printdatarow">printDataRow</a></strong>(Print &amp; out) override<br />Print those columns’ values, as <a href="/Okapi_Library/Classes/classOkapi/#function-readonboard">readOnBoard()</a> left them. Takes no reading.</td>
+    </tr>
+    <tr>
+      <td>uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-defaultaddress">defaultAddress</a></strong>() const override<br />A logger is on its own bus, not found at an address on it.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-wake">wake</a></strong>(uint8_t address) override<br />A logger is not powered down, so it is always awake.</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-acquire">acquire</a></strong>() override<br />Read this board’s own channels, for <a href="/Okapi_Library/Classes/classOkapi/#function-printdatarow">printDataRow()</a> to print.</td>
+    </tr>
+    <tr>
+      <td>size_t</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-printnote">printNote</a></strong>(Print &amp; out, bool beginFailed =false) override<br />A logger’s own word for the Note column: it has none of its own.</td>
+    </tr>
+    <tr>
+      <td>void</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-adddatapoint">addDataPoint</a></strong>() override<br />The streaming row: this board’s bus dance around readSensors() and logRow().</td>
     </tr>
     <tr>
       <td>uint8_t</td>
@@ -294,58 +318,6 @@
       <td>size_t</td>
       <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-printstatus">printStatus</a></strong>(Print &amp; out, bool boot =false) override</td>
     </tr>
-    <tr>
-      <td>int</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-logstr">LogStr</a></strong>(String Val)</td>
-    </tr>
-    <tr>
-      <td>String</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-readstr">ReadStr</a></strong>(uint8_t LineIndex, uint32_t DataIndex)</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-run">Run</a></strong>(String(*)(void) Update, unsigned long LogInterval)</td>
-    </tr>
-    <tr>
-      <td>float</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-getvoltage">GetVoltage</a></strong>(uint8_t Pin)</td>
-    </tr>
-    <tr>
-      <td>uint8_t</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-setvoltageraw">SetVoltageRaw</a></strong>(uint16_t Val, bool Gain =GAIN_1X)</td>
-    </tr>
-    <tr>
-      <td>uint8_t</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-setvoltage">SetVoltage</a></strong>(float Val)</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-adddatapoint">AddDataPoint</a></strong>(String(*)(void) Update)</td>
-    </tr>
-    <tr>
-      <td>String</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-getonboardvals">GetOnBoardVals</a></strong>()</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-initlogfile">InitLogFile</a></strong>()</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-resetwd">ResetWD</a></strong>()</td>
-    </tr>
-    <tr>
-      <td>uint8_t</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-powerauto">PowerAuto</a></strong>()</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-poweraux">PowerAux</a></strong>(uint8_t State)</td>
-    </tr>
-    <tr>
-      <td>void</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#function-i2cstate">I2CState</a></strong>(bool State)</td>
-    </tr>
   </tbody>
 </table>
 
@@ -361,7 +333,7 @@
   <tbody>
     <tr>
       <td>uint8_t</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable-tx">TX</a></strong> <br />USART Transmit.</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable-tx">TX</a></strong></td>
     </tr>
     <tr>
       <td>uint8_t</td>
@@ -432,8 +404,28 @@
       <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable-globalint">GlobalInt</a></strong> <br />WHAT IS THIS?</td>
     </tr>
     <tr>
-      <td>const String</td>
-      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable-libversion">LibVersion</a></strong> <br /><a href="/Okapi_Library/Classes/classOkapi/">Okapi</a> data logger library version.</td>
+      <td>float</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable--rtctemp">_rtcTemp</a></strong> <br /><a href="/Okapi_Library/Classes/classOkapi/">Okapi</a> data logger library version.</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable--vbetamv">_vBetaMv</a></strong> <br />Beta rail voltage from the last <a href="">readOnBoard()</a> [mV].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable--vprimemv">_vPrimeMv</a></strong> <br />Prime rail voltage from the last <a href="">readOnBoard()</a> [mV].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable--isolarma">_iSolarMa</a></strong> <br />Solar current from the last <a href="">readOnBoard()</a> [mA].</td>
+    </tr>
+    <tr>
+      <td>float</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable--ibetama">_iBetaMa</a></strong> <br />Beta current from the last <a href="">readOnBoard()</a> [mA].</td>
+    </tr>
+    <tr>
+      <td>constexpr const char *</td>
+      <td><strong><a href="/Okapi_Library/Classes/classOkapi/#variable-libversion">libVersion</a></strong></td>
     </tr>
   </tbody>
 </table>
@@ -447,7 +439,7 @@
 
 <p>Everything a logger does (the card layout, the data and status files, run(), the interrupts, the self-tests, the LED, the serial number from Page 0) comes from NW_Logger. <a href="/Okapi_Library/Classes/classOkapi/">Okapi</a> adds its two power rails with their arbitration, its on-board ADS1115 pair and MCP4725 DAC, the MCP23018 port expander that switches the Feather, and the backhaul over Serial after every LogCountPush rows. <a href="/Okapi_Library/Classes/classOkapi/">Okapi</a> is a Schema 1 device like Margay: its Pages 0 from EEPROM, Pages 2 and 3 a reading of itself (the appendix’s Block 1, power, waits on the power model and stays zero).</p>
 
-<p>Names are camelCase as of 2026-09-23; the PascalCase names stay as deprecated forwarders for one release.</p>
+<p>Names are camelCase as of 2026-09-23; the PascalCase names stay as</p>
 
 <h2 id="public-functions-documentation">Public Functions Documentation</h2>
 
@@ -468,12 +460,11 @@
   <li><strong>Specs_</strong> Defines the number of on-board I2C device addresses. <strong>Build_A</strong>: <strong>DEFAULT</strong> 6 on-board I2C devices. <strong>Build_B</strong>: 0 on-board I2C devices.</li>
 </ul>
 
-<h3 id="function-begin">function begin</h3>
+<h3 id="function-beginboard">function beginBoard</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="n">beginBoard</span><span class="p">(</span>
     <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">Vals</span><span class="p">,</span>
-    <span class="kt">uint8_t</span> <span class="n">NumVals</span><span class="p">,</span>
-    <span class="n">String</span> <span class="n">header_</span>
+    <span class="kt">uint8_t</span> <span class="n">NumVals</span>
 <span class="p">)</span> <span class="k">override</span>
 </code></pre></div></div>
 
@@ -489,11 +480,12 @@
 
 <p><strong>Return</strong>: true when the self-tests found nothing wrong</p>
 
-<h3 id="function-readstr">function readStr</h3>
+<h3 id="function-printrow">function printRow</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">readStr</span><span class="p">(</span>
-    <span class="kt">uint8_t</span> <span class="n">LineIndex</span><span class="p">,</span>
-    <span class="kt">uint32_t</span> <span class="n">DataIndex</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printRow</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span>
+    <span class="kt">uint8_t</span> <span class="n">lineIndex</span><span class="p">,</span>
+    <span class="kt">uint32_t</span> <span class="n">dataIndex</span>
 <span class="p">)</span>
 </code></pre></div></div>
 
@@ -502,11 +494,16 @@
 <p><strong>Parameters</strong>:</p>
 
 <ul>
-  <li><strong>LineIndex</strong> The desired line number, counted from DataIndex</li>
-  <li><strong>DataIndex</strong> The byte at which to start in the file</li>
+  <li><strong>out</strong> Where to print: Serial to reach the Feather, any Print.</li>
+  <li><strong>lineIndex</strong> The desired line number, counted from dataIndex</li>
+  <li><strong>dataIndex</strong> The byte at which to start in the file</li>
 </ul>
 
-<p>Read one row back from the data file, for the backhaul</p>
+<p><strong>Return</strong>: Bytes printed. 0 when the file would not open, or when the row is not there.</p>
+
+<p>Print one row of the data file into any Print, for the backhaul</p>
+
+<p>Reads the row off the card a character at a time and writes each one straight out, so a row travels from the card to the radio without being held in RAM (LIBRARY-DESIGN.md sections 14 and 15). The row’s newline is not printed; its carriage return, which the logger wrote, is.</p>
 
 <h3 id="function-getvoltage">function getVoltage</h3>
 
@@ -555,11 +552,9 @@
   <li><strong>Val</strong> Desired voltage value, in volts.</li>
 </ul>
 
-<h3 id="function-adddatapoint">function addDataPoint</h3>
+<h3 id="function-readonboard">function readOnBoard</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">addDataPoint</span><span class="p">(</span>
-    <span class="n">String</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="n">Update</span>
-<span class="p">)</span> <span class="k">override</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">readOnBoard</span><span class="p">()</span> <span class="k">override</span>
 </code></pre></div></div>
 
 <p>Writes date/time, on-board sensors, and external string to SD.</p>
@@ -570,12 +565,69 @@
   <li><strong>*Update</strong> External update function from Arduino sketch</li>
 </ul>
 
-<h3 id="function-getonboardvals">function getOnBoardVals</h3>
+<p>Obtain date/time, P/T/RH, temperatures, and voltages from board</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">getOnBoardVals</span><span class="p">()</span>
+<p>Read the on-board channels into _rtcTemp, _vBetaMv, _vPrimeMv, _iSolarMa and _iBetaMa (and the timestamp).</p>
+
+<h3 id="function-printdataheader">function printDataHeader</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printDataHeader</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span> <span class="k">override</span>
 </code></pre></div></div>
 
-<p>Obtain date/time, P/T/RH, temperatures, and voltages from board.</p>
+<p>Print the logger’s own data columns: the timestamp and the on-board sensors.</p>
+
+<h3 id="function-printdatarow">function printDataRow</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">printDataRow</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span>
+<span class="p">)</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>Print those columns’ values, as <a href="/Okapi_Library/Classes/classOkapi/#function-readonboard">readOnBoard()</a> left them. Takes no reading.</p>
+
+<h3 id="function-defaultaddress">function defaultAddress</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">uint8_t</span> <span class="n">defaultAddress</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>A logger is on its own bus, not found at an address on it.</p>
+
+<h3 id="function-wake">function wake</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">bool</span> <span class="n">wake</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">address</span>
+<span class="p">)</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>A logger is not powered down, so it is always awake.</p>
+
+<p><strong>Return</strong>: true.</p>
+
+<h3 id="function-acquire">function acquire</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">bool</span> <span class="n">acquire</span><span class="p">()</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>Read this board’s own channels, for <a href="/Okapi_Library/Classes/classOkapi/#function-printdatarow">printDataRow()</a> to print.</p>
+
+<h3 id="function-printnote">function printNote</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">size_t</span> <span class="n">printNote</span><span class="p">(</span>
+    <span class="n">Print</span> <span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span>
+    <span class="kt">bool</span> <span class="n">beginFailed</span> <span class="o">=</span><span class="nb">false</span>
+<span class="p">)</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>A logger’s own word for the Note column: it has none of its own.</p>
+
+<h3 id="function-adddatapoint">function addDataPoint</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">addDataPoint</span><span class="p">()</span> <span class="k">override</span>
+</code></pre></div></div>
+
+<p>The streaming row: this board’s bus dance around readSensors() and logRow().</p>
 
 <h3 id="function-powerauto">function powerAuto</h3>
 
@@ -621,100 +673,12 @@
 <span class="p">)</span> <span class="k">override</span>
 </code></pre></div></div>
 
-<h3 id="function-logstr">function LogStr</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">int</span> <span class="n">LogStr</span><span class="p">(</span>
-    <span class="n">String</span> <span class="n">Val</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-readstr-1">function ReadStr</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="n">String</span> <span class="n">ReadStr</span><span class="p">(</span>
-    <span class="kt">uint8_t</span> <span class="n">LineIndex</span><span class="p">,</span>
-    <span class="kt">uint32_t</span> <span class="n">DataIndex</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-run">function Run</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">Run</span><span class="p">(</span>
-    <span class="n">String</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="n">Update</span><span class="p">,</span>
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">LogInterval</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-getvoltage-1">function GetVoltage</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">float</span> <span class="n">GetVoltage</span><span class="p">(</span>
-    <span class="kt">uint8_t</span> <span class="n">Pin</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-setvoltageraw-1">function SetVoltageRaw</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">uint8_t</span> <span class="n">SetVoltageRaw</span><span class="p">(</span>
-    <span class="kt">uint16_t</span> <span class="n">Val</span><span class="p">,</span>
-    <span class="kt">bool</span> <span class="n">Gain</span> <span class="o">=</span><span class="n">GAIN_1X</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-setvoltage-1">function SetVoltage</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">uint8_t</span> <span class="n">SetVoltage</span><span class="p">(</span>
-    <span class="kt">float</span> <span class="n">Val</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-adddatapoint-1">function AddDataPoint</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">AddDataPoint</span><span class="p">(</span>
-    <span class="n">String</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="n">Update</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-getonboardvals-1">function GetOnBoardVals</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="n">String</span> <span class="n">GetOnBoardVals</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h3 id="function-initlogfile">function InitLogFile</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">InitLogFile</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h3 id="function-resetwd">function ResetWD</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">ResetWD</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h3 id="function-powerauto-1">function PowerAuto</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">uint8_t</span> <span class="n">PowerAuto</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h3 id="function-poweraux-1">function PowerAux</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">PowerAux</span><span class="p">(</span>
-    <span class="kt">uint8_t</span> <span class="n">State</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="function-i2cstate-1">function I2CState</h3>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="kt">void</span> <span class="n">I2CState</span><span class="p">(</span>
-    <span class="kt">bool</span> <span class="n">State</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
 <h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
 
 <h3 id="variable-tx">variable TX</h3>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">uint8_t</span> <span class="n">TX</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
 </code></pre></div></div>
-
-<p>USART Transmit.</p>
 
 <h3 id="variable-rx">variable RX</h3>
 
@@ -835,16 +799,51 @@
 
 <p>WHAT IS THIS?</p>
 
-<h3 id="variable-libversion">variable LibVersion</h3>
+<h3 id="variable-_rtctemp">variable _rtcTemp</h3>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">String</span> <span class="n">LibVersion</span> <span class="o">=</span> <span class="n">OKAPI_LIBRARY_VERSION</span><span class="p">;</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">_rtcTemp</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p><a href="/Okapi_Library/Classes/classOkapi/">Okapi</a> data logger library version.</p>
 
+<p>RTC die temperature from the last <a href="/Okapi_Library/Classes/classOkapi/#function-readonboard">readOnBoard()</a> [C]</p>
+
+<h3 id="variable-_vbetamv">variable _vBetaMv</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">_vBetaMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Beta rail voltage from the last <a href="">readOnBoard()</a> [mV].</p>
+
+<h3 id="variable-_vprimemv">variable _vPrimeMv</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">_vPrimeMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Prime rail voltage from the last <a href="">readOnBoard()</a> [mV].</p>
+
+<h3 id="variable-_isolarma">variable _iSolarMa</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">_iSolarMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Solar current from the last <a href="">readOnBoard()</a> [mA].</p>
+
+<h3 id="variable-_ibetama">variable _iBetaMa</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">_iBetaMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Beta current from the last <a href="">readOnBoard()</a> [mA].</p>
+
+<h3 id="variable-libversion">variable libVersion</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">libVersion</span> <span class="o">=</span> <span class="n">OKAPI_LIBRARY_VERSION</span><span class="p">;</span>
+</code></pre></div></div>
+
 <hr />
 
-<p>Updated on 2026-09-23 at 22:44:32 +0000</p>
+<p>Updated on 2026-10-04 at 04:51:38 +0000</p>
 
         
       </section>

@@ -459,9 +459,9 @@
 
 <span class="cp">#include</span> <span class="cpf">&lt;Arduino.h&gt;</span><span class="cp">
 #include</span> <span class="cpf">&lt;Wire.h&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;NW_Logger.h&gt;</span><span class="c1">   // the logger core that Okapi and Margay share (NW_Sensor and NW_Pages through it)</span><span class="cp">
-#include</span> <span class="cpf">&lt;Adafruit_ADS1015.h&gt;</span><span class="c1"> //Include ADC interface</span><span class="cp">
-#include</span> <span class="cpf">&lt;MCP4725.h&gt;</span><span class="c1">  //Include custom DAC library</span><span class="cp">
+#include</span> <span class="cpf">&lt;NW_Logger.h&gt;</span><span class="c1">         // the logger core that Okapi and Margay share (NW_Sensor and NW_Pages through it)</span><span class="cp">
+#include</span> <span class="cpf">&lt;Adafruit_ADS1015.h&gt;</span><span class="c1">  //Include ADC interface</span><span class="cp">
+#include</span> <span class="cpf">&lt;MCP4725.h&gt;</span><span class="c1">           //Include custom DAC library</span><span class="cp">
 #include</span> <span class="cpf">&lt;MCP23018.h&gt;</span><span class="cp">
 </span>
 <span class="c1">// Build identity: this library's version (held equal to library.properties by</span>
@@ -485,106 +485,119 @@
 <span class="cp">#define MODEL_1v0
 #define MODEL_0v0
 </span>
-<span class="k">enum</span> <span class="n">board</span>
-<span class="p">{</span>
-    <span class="n">Model_0v0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">Model_1v0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">Model_2v0</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">enum</span> <span class="n">board</span> <span class="p">{</span>
+  <span class="n">Model_0v0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">Model_1v0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Model_2v0</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="p">};</span>
 
-<span class="k">enum</span> <span class="n">build</span>
-<span class="p">{</span>
-    <span class="n">Build_A</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">Build_B</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">Build_C</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">enum</span> <span class="n">build</span> <span class="p">{</span>
+  <span class="n">Build_A</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">Build_B</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">Build_C</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="p">};</span>
 
-<span class="k">enum</span> <span class="n">temp_val</span>
-<span class="p">{</span>
-    <span class="n">Therm_Val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">RTC_Val</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">enum</span> <span class="n">temp_val</span> <span class="p">{</span>
+  <span class="n">Therm_Val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="n">RTC_Val</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="p">};</span>
 
-<span class="k">class</span> <span class="nc">Okapi</span> <span class="o">:</span> <span class="k">public</span> <span class="n">NW_Logger</span>
-<span class="p">{</span>
+<span class="k">class</span> <span class="nc">Okapi</span> <span class="o">:</span> <span class="k">public</span> <span class="n">NW_Logger</span> <span class="p">{</span>
 
-    <span class="nl">public:</span>
-        <span class="n">Okapi</span><span class="p">(</span><span class="n">board</span> <span class="n">Model_</span> <span class="o">=</span> <span class="n">Model_0v0</span><span class="p">,</span> <span class="n">build</span> <span class="n">Specs_</span> <span class="o">=</span> <span class="n">Build_A</span><span class="p">);</span> <span class="c1">//Use Build_A by default</span>
-        <span class="kt">bool</span> <span class="n">begin</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">Vals</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">NumVals</span><span class="p">,</span> <span class="n">String</span> <span class="n">header_</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
-        <span class="k">using</span> <span class="n">NW_Logger</span><span class="o">::</span><span class="n">begin</span><span class="p">;</span> 
-        <span class="n">String</span> <span class="n">readStr</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">LineIndex</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">DataIndex</span><span class="p">);</span>
-        <span class="kt">float</span> <span class="n">getVoltage</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Pin</span><span class="p">);</span> <span class="c1">//Read ADC</span>
-        <span class="kt">uint8_t</span> <span class="n">setVoltageRaw</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">Val</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">Gain</span> <span class="o">=</span> <span class="n">GAIN_1X</span><span class="p">);</span> <span class="c1">//Set DAC with raw input, default to 1x gain</span>
-        <span class="kt">uint8_t</span> <span class="n">setVoltage</span><span class="p">(</span><span class="kt">float</span> <span class="n">Val</span><span class="p">);</span> <span class="c1">//Set DAC to nearest interpolated value</span>
-        <span class="kt">void</span> <span class="n">addDataPoint</span><span class="p">(</span><span class="n">String</span> <span class="p">(</span><span class="o">*</span><span class="n">Update</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span> <span class="k">override</span><span class="p">;</span>
-        <span class="n">String</span> <span class="n">getOnBoardVals</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="n">powerAuto</span><span class="p">();</span>
-        <span class="kt">void</span> <span class="n">powerAux</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">State</span><span class="p">);</span>
-        <span class="kt">void</span> <span class="n">i2cState</span><span class="p">(</span><span class="kt">bool</span> <span class="n">State</span><span class="p">);</span>
+<span class="nl">public:</span>
+  <span class="n">Okapi</span><span class="p">(</span><span class="n">board</span> <span class="n">Model_</span> <span class="o">=</span> <span class="n">Model_0v0</span><span class="p">,</span> <span class="n">build</span> <span class="n">Specs_</span> <span class="o">=</span> <span class="n">Build_A</span><span class="p">);</span>  <span class="c1">//Use Build_A by default</span>
+  <span class="kt">bool</span> <span class="n">beginBoard</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span> <span class="n">Vals</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">NumVals</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">NW_Logger</span><span class="o">::</span><span class="n">begin</span><span class="p">;</span>  
+  <span class="kt">size_t</span> <span class="n">printRow</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">lineIndex</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">dataIndex</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="n">getVoltage</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Pin</span><span class="p">);</span>  <span class="c1">//Read ADC</span>
+  <span class="kt">uint8_t</span> <span class="n">setVoltageRaw</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">Val</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">Gain</span> <span class="o">=</span> <span class="n">GAIN_1X</span><span class="p">);</span>  <span class="c1">//Set DAC with raw input, default to 1x gain</span>
+  <span class="kt">uint8_t</span> <span class="n">setVoltage</span><span class="p">(</span><span class="kt">float</span> <span class="n">Val</span><span class="p">);</span>  <span class="c1">//Set DAC to nearest interpolated value</span>
+  <span class="kt">void</span> <span class="n">readOnBoard</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
-        <span class="c1">// --- NW_Sensor: Okapi is a Schema 1 device and watches itself ---</span>
-        <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span> <span class="k">return</span> <span class="s">"Okapi"</span><span class="p">;</span> <span class="p">}</span>
-        <span class="kt">size_t</span> <span class="n">printStatus</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">boot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">size_t</span> <span class="n">printDataHeader</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
 
-        <span class="c1">// --- PascalCase names, deprecated 2026-09-23: forwarders for one release ---</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use logStr()"</span><span class="p">)]]</span> <span class="kt">int</span> <span class="nf">LogStr</span><span class="p">(</span><span class="n">String</span> <span class="n">Val</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">logStr</span><span class="p">(</span><span class="n">Val</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use readStr()"</span><span class="p">)]]</span> <span class="n">String</span> <span class="nf">ReadStr</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">LineIndex</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">DataIndex</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">readStr</span><span class="p">(</span><span class="n">LineIndex</span><span class="p">,</span> <span class="n">DataIndex</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use run()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">Run</span><span class="p">(</span><span class="n">String</span> <span class="p">(</span><span class="o">*</span><span class="n">Update</span><span class="p">)(</span><span class="kt">void</span><span class="p">),</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">LogInterval</span><span class="p">)</span> <span class="p">{</span> <span class="n">run</span><span class="p">(</span><span class="n">Update</span><span class="p">,</span> <span class="n">LogInterval</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use getVoltage()"</span><span class="p">)]]</span> <span class="kt">float</span> <span class="nf">GetVoltage</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">Pin</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">getVoltage</span><span class="p">(</span><span class="n">Pin</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use setVoltageRaw()"</span><span class="p">)]]</span> <span class="kt">uint8_t</span> <span class="nf">SetVoltageRaw</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">Val</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">Gain</span> <span class="o">=</span> <span class="n">GAIN_1X</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">setVoltageRaw</span><span class="p">(</span><span class="n">Val</span><span class="p">,</span> <span class="n">Gain</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use setVoltage()"</span><span class="p">)]]</span> <span class="kt">uint8_t</span> <span class="nf">SetVoltage</span><span class="p">(</span><span class="kt">float</span> <span class="n">Val</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">setVoltage</span><span class="p">(</span><span class="n">Val</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use addDataPoint()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">AddDataPoint</span><span class="p">(</span><span class="n">String</span> <span class="p">(</span><span class="o">*</span><span class="n">Update</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span> <span class="p">{</span> <span class="n">addDataPoint</span><span class="p">(</span><span class="n">Update</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use getOnBoardVals()"</span><span class="p">)]]</span> <span class="n">String</span> <span class="nf">GetOnBoardVals</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">getOnBoardVals</span><span class="p">();</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use initLogFile()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">InitLogFile</span><span class="p">()</span> <span class="p">{</span> <span class="n">initLogFile</span><span class="p">();</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use resetWDT()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">ResetWD</span><span class="p">()</span> <span class="p">{</span> <span class="n">resetWDT</span><span class="p">();</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use powerAuto()"</span><span class="p">)]]</span> <span class="kt">uint8_t</span> <span class="nf">PowerAuto</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">powerAuto</span><span class="p">();</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use powerAux()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">PowerAux</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">State</span><span class="p">)</span> <span class="p">{</span> <span class="n">powerAux</span><span class="p">(</span><span class="n">State</span><span class="p">);</span> <span class="p">}</span>
-        <span class="p">[[</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Use i2cState()"</span><span class="p">)]]</span> <span class="kt">void</span> <span class="nf">I2CState</span><span class="p">(</span><span class="kt">bool</span> <span class="n">State</span><span class="p">)</span> <span class="p">{</span> <span class="n">i2cState</span><span class="p">(</span><span class="n">State</span><span class="p">);</span> <span class="p">}</span>
+  <span class="kt">size_t</span> <span class="n">printDataRow</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
 
-        <span class="kt">uint8_t</span> <span class="n">TX</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//ADD TO DOCUMENTATION!</span>
-        <span class="kt">uint8_t</span> <span class="n">RX</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">//ADD TO DOCUMENTATION!</span>
-        <span class="kt">uint8_t</span> <span class="n">C0</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">C1</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">Sw_Bus_Prime</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">Sw_Bus_Sec</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">PG_3v3_Core</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">FeatherEN</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">D0</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">D1</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">D2</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">D3</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">ADC_Sense_SW</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">FeatherRTS</span> <span class="o">=</span> <span class="mi">31</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">FeatherCTS</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">FeatherGPIO</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">CS_Ext</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
-        <span class="kt">uint8_t</span> <span class="n">GlobalInt</span> <span class="o">=</span> <span class="mi">28</span><span class="p">;</span>
-        <span class="k">const</span> <span class="n">String</span> <span class="n">LibVersion</span> <span class="o">=</span> <span class="n">OKAPI_LIBRARY_VERSION</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">defaultAddress</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
 
-    <span class="k">protected</span><span class="o">:</span>
-        <span class="n">String</span> <span class="n">dataHeader</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="n">sleepNow</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
-        <span class="kt">void</span> <span class="n">afterLogEvent</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span> <span class="c1">//The backhaul: after LogCountPush rows on main power, hand them to the Feather</span>
-        <span class="kt">void</span> <span class="nf">turnOffSDcard</span><span class="p">();</span>
-        <span class="kt">void</span> <span class="nf">turnOnSDcard</span><span class="p">();</span>
-        <span class="kt">void</span> <span class="nf">enviroStats</span><span class="p">();</span>
-        <span class="kt">uint8_t</span> <span class="nf">chipFaults</span><span class="p">();</span>    <span class="c1">// Okapi's chip-fault bits for Block 0: SDCard, Clock, BME280, SensorBus, Charger, Backup</span>
-        <span class="kt">void</span> <span class="nf">fillPages</span><span class="p">();</span>        <span class="c1">// Page 2 and 3 from the logger's own readings, then endReading()</span>
+  <span class="kt">bool</span> <span class="n">wake</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">address</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">address</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
 
-        <span class="n">MCP4725</span> <span class="n">DAC</span><span class="p">;</span> <span class="c1">//Instatiate DAC</span>
-        <span class="n">Adafruit_ADS1115</span> <span class="n">ADC_OB</span><span class="p">;</span> <span class="c1">//Initialize on board (power moitoring) ADC</span>
-        <span class="n">Adafruit_ADS1115</span> <span class="n">ADC_Ext</span><span class="p">;</span>  <span class="c1">//Initialize external (sensor) ADC</span>
-        <span class="n">MCP23018</span> <span class="n">IO</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">acquire</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">readOnBoard</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
 
-        <span class="kt">float</span> <span class="n">PowerState</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Keep track of what power mode the system is using when waking from sleep</span>
+  <span class="kt">size_t</span> <span class="n">printNote</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">beginFailed</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">out</span><span class="p">;</span>
+    <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">beginFailed</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
 
-        <span class="n">board</span> <span class="n">Model</span><span class="p">;</span>
-        <span class="n">build</span> <span class="n">Specs</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="n">addDataPoint</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
-        <span class="kt">uint16_t</span> <span class="n">LogCountPush</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//Number of logs to take before sending data off</span>
-        <span class="kt">uint16_t</span> <span class="n">LogCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Number of logs since last data write</span>
-        <span class="kt">uint16_t</span> <span class="n">Index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Index of data entry USE???? FIX!</span>
-        <span class="kt">uint32_t</span> <span class="n">LastSDIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">//Index as last data dump</span>
+  <span class="kt">uint8_t</span> <span class="nf">powerAuto</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">powerAux</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">State</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="nf">i2cState</span><span class="p">(</span><span class="kt">bool</span> <span class="n">State</span><span class="p">);</span>
+
+  <span class="c1">// --- NW_Sensor: Okapi is a Schema 1 device and watches itself ---</span>
+  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">"Okapi"</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">size_t</span> <span class="n">printStatus</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">boot</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="kt">uint8_t</span> <span class="n">TX</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>  <span class="c1">//ADD TO DOCUMENTATION!</span>
+  <span class="kt">uint8_t</span> <span class="n">RX</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>  <span class="c1">//ADD TO DOCUMENTATION!</span>
+  <span class="kt">uint8_t</span> <span class="n">C0</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">C1</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">Sw_Bus_Prime</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">Sw_Bus_Sec</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">PG_3v3_Core</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">FeatherEN</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">D0</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">D1</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">D2</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">D3</span> <span class="o">=</span> <span class="mi">26</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">ADC_Sense_SW</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">FeatherRTS</span> <span class="o">=</span> <span class="mi">31</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">FeatherCTS</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">FeatherGPIO</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">CS_Ext</span> <span class="o">=</span> <span class="mi">24</span><span class="p">;</span>
+  <span class="kt">uint8_t</span> <span class="n">GlobalInt</span> <span class="o">=</span> <span class="mi">28</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">_rtcTemp</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>   
+  <span class="kt">float</span> <span class="n">_vBetaMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>   
+  <span class="kt">float</span> <span class="n">_vPrimeMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>  
+  <span class="kt">float</span> <span class="n">_iSolarMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>  
+  <span class="kt">float</span> <span class="n">_iBetaMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>   
+  <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">libVersion</span> <span class="o">=</span> <span class="n">OKAPI_LIBRARY_VERSION</span><span class="p">;</span>
+
+<span class="k">protected</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">sleepNow</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="n">afterLogEvent</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>  <span class="c1">//The backhaul: after LogCountPush rows on main power, hand them to the Feather</span>
+  <span class="kt">void</span> <span class="nf">turnOffSDcard</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">turnOnSDcard</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="nf">enviroStats</span><span class="p">();</span>
+  <span class="kt">uint8_t</span> <span class="nf">chipFaults</span><span class="p">();</span>  <span class="c1">// Okapi's chip-fault bits for Block 0: SDCard, Clock, BME280, SensorBus, Charger, Backup</span>
+  <span class="kt">void</span> <span class="nf">fillPages</span><span class="p">();</span>      <span class="c1">// Page 2 and 3 from the logger's own readings, then endReading()</span>
+
+  <span class="n">MCP4725</span> <span class="n">_dac</span><span class="p">;</span>              <span class="c1">//Instatiate DAC</span>
+  <span class="n">Adafruit_ADS1115</span> <span class="n">_adcOb</span><span class="p">;</span>   <span class="c1">//Initialize on board (power moitoring) ADC</span>
+  <span class="n">Adafruit_ADS1115</span> <span class="n">_adcExt</span><span class="p">;</span>  <span class="c1">//Initialize external (sensor) ADC</span>
+  <span class="n">MCP23018</span> <span class="n">_io</span><span class="p">;</span>
+
+  <span class="kt">float</span> <span class="n">_powerState</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">//Keep track of what power mode the system is using when waking from sleep</span>
+
+  <span class="n">board</span> <span class="n">_model</span><span class="p">;</span>
+  <span class="n">build</span> <span class="n">_specs</span><span class="p">;</span>
+
+  <span class="kt">uint16_t</span> <span class="n">_logCountPush</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">//Number of logs to take before sending data off</span>
+  <span class="kt">uint16_t</span> <span class="n">_logCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>      <span class="c1">//Number of logs since last data write</span>
+  <span class="kt">uint16_t</span> <span class="n">_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>         <span class="c1">//Index of data entry USE???? FIX!</span>
+  <span class="kt">uint32_t</span> <span class="n">_lastSdIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>   <span class="c1">//Index as last data dump</span>
 <span class="p">};</span>
 
 <span class="cp">#endif
@@ -592,7 +605,7 @@
 
 <hr />
 
-<p>Updated on 2026-09-23 at 22:44:32 +0000</p>
+<p>Updated on 2026-10-04 at 04:51:38 +0000</p>
 
         
       </section>
