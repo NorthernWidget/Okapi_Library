@@ -23,6 +23,15 @@ Okapi::Okapi(board Model_, build Specs_)
   // WDHold = 255; //Null pins
   // BatSwitch = 255; //Null pins
 
+  //No watchdog ceiling is checked, because this board's watchdog is not being
+  //fed. Its TPL5111's DONE line (net WD_DONE in Okapi.sch) lands on the I/O
+  //expander's GPIOA3, not on an MCU pin, so resetWDT()'s pulse on WDHold - 23 by
+  //default here, never overridden - reaches an unrelated pin. The period itself
+  //is jumper-selected at JP8: R20 130k gives 3943 s (66 min) and R62 330k is
+  //outside the part's 170k maximum. Set this once DONE is driven through the
+  //expander (FIX!).
+  wdtSeconds = 0;
+
   // BatteryDivider = 2.0;
 
   // if(Specs_ == Build_A) {
