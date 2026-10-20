@@ -298,6 +298,15 @@
   <span class="c1">// WDHold = 255; //Null pins</span>
   <span class="c1">// BatSwitch = 255; //Null pins</span>
 
+  <span class="c1">//No watchdog ceiling is checked, because this board's watchdog is not being</span>
+  <span class="c1">//fed. Its TPL5111's DONE line (net WD_DONE in Okapi.sch) lands on the I/O</span>
+  <span class="c1">//expander's GPIOA3, not on an MCU pin, so resetWDT()'s pulse on WDHold - 23 by</span>
+  <span class="c1">//default here, never overridden - reaches an unrelated pin. The period itself</span>
+  <span class="c1">//is jumper-selected at JP8: R20 130k gives 3943 s (66 min) and R62 330k is</span>
+  <span class="c1">//outside the part's 170k maximum. Set this once DONE is driven through the</span>
+  <span class="c1">//expander (FIX!).</span>
+  <span class="n">wdtSeconds</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
   <span class="c1">// BatteryDivider = 2.0;</span>
 
   <span class="c1">// if(Specs_ == Build_A) {</span>
@@ -340,13 +349,14 @@
   <span class="n">_adcExt</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
   <span class="n">_dac</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x62</span><span class="p">);</span>
   <span class="n">_dac</span><span class="p">.</span><span class="n">SetRef</span><span class="p">(</span><span class="n">BUFFERED_VREF</span><span class="p">);</span>  <span class="c1">//Set buffer configuration //FIX! Make variable if need to set greater than 4.096v?</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">38400</span><span class="p">);</span>         <span class="c1">//Before the first thing that may print: the BME280 result below</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">bme280</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x77</span><span class="p">))</span> <span class="p">{</span>   <span class="c1">//Initalize onboard temp/pressure/RH sensor (BME280)</span>
     <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"BME280 init: FAIL"</span><span class="p">);</span>
     <span class="n">_onBoardError</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
     <span class="n">_bmeError</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="n">raise</span><span class="p">(</span><span class="n">NW_MSG_BME_MISSING</span><span class="p">);</span>
   <span class="p">}</span>
 
-  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">38400</span><span class="p">);</span>  <span class="c1">//DEBUG!</span>
   <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Lib = "</span><span class="p">);</span>
   <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">libVersion</span><span class="p">);</span>
   <span class="kt">bool</span> <span class="n">schema1</span> <span class="o">=</span> <span class="n">readIdentity</span><span class="p">();</span>  <span class="c1">//Serial number and hardware version from Page 0 (Schema 1), else the last 8 bytes (Schema 0)</span>
@@ -363,7 +373,11 @@
   <span class="n">enviroStats</span><span class="p">();</span>  <span class="c1">//Only print out enviromental variables if BME is on board</span>
   <span class="c1">//FIX! Add Feather test??</span>
 
-  <span class="n">ledReport</span><span class="p">();</span>  <span class="c1">//The self-test results on the RGB LED, then "Ready to Log"</span>
+  <span class="n">printReadyToLog</span><span class="p">();</span>  <span class="c1">//"Ready to Log" on Serial; the LED verdict waits for the first row, in run()</span>
+  <span class="c1">//Pending Andy's decision on whether a logger keeps serving its own Report</span>
+  <span class="c1">//register (QUEUE.md, item 1 step 3). The messages above are what the LED and</span>
+  <span class="c1">//the Note column read; this chain is the served byte, and reports only the</span>
+  <span class="c1">//first fault it meets.</span>
   <span class="c1">//The logger's own report at boot, for its first status row: the first fault the</span>
   <span class="c1">//self-tests found, else LoggingStarted (unit, kind 16).</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">_sdCardMissing</span><span class="p">)</span> <span class="n">_pages</span><span class="p">.</span><span class="n">latchFault</span><span class="p">(</span><span class="mh">0x01</span><span class="p">);</span>
@@ -372,6 +386,7 @@
   <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">_bmeError</span><span class="p">)</span> <span class="n">_pages</span><span class="p">.</span><span class="n">latchFault</span><span class="p">(</span><span class="mh">0x41</span><span class="p">);</span>
   <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">_sensorError</span><span class="p">)</span> <span class="n">_pages</span><span class="p">.</span><span class="n">latchFault</span><span class="p">(</span><span class="mh">0x61</span><span class="p">);</span>
   <span class="n">_pages</span><span class="p">.</span><span class="n">latchNotice</span><span class="p">(</span><span class="mh">0xF0</span><span class="p">);</span>
+  <span class="n">raise</span><span class="p">(</span><span class="n">NW_MSG_LOG_STARTED</span><span class="p">);</span>
   <span class="n">_bootReport</span> <span class="o">=</span> <span class="n">_pages</span><span class="p">.</span><span class="n">report</span><span class="p">();</span>
   <span class="n">_pages</span><span class="p">.</span><span class="n">acknowledge</span><span class="p">();</span>
   <span class="n">_newLog</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">//Set flag to begin new log file</span>
@@ -506,12 +521,15 @@
 <span class="p">{</span>
   <span class="n">i2cState</span><span class="p">(</span><span class="n">EXTERNAL</span><span class="p">);</span>
   <span class="n">readSensors</span><span class="p">();</span>
-  <span class="n">i2cState</span><span class="p">(</span><span class="n">INTERNAL</span><span class="p">);</span>                           <span class="c1">//DEBUG!</span>
-  <span class="n">bme280</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x77</span><span class="p">);</span>                           <span class="c1">//DEBUG!</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">logRow</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">_pages</span><span class="p">.</span><span class="n">latchNotice</span><span class="p">(</span><span class="mh">0xF2</span><span class="p">);</span>  <span class="c1">//RowNotWritten</span>
-  <span class="n">_logCount</span><span class="o">++</span><span class="p">;</span>                                  <span class="c1">//FIX??</span>
-  <span class="n">fillPages</span><span class="p">();</span>                                  <span class="c1">//Okapi's reading of itself: Page 2, Page 3, Block 0</span>
-  <span class="n">reportRows</span><span class="p">();</span>                                 <span class="c1">//The status file: a row for the logger and every watched sensor with something to report</span>
+  <span class="n">i2cState</span><span class="p">(</span><span class="n">INTERNAL</span><span class="p">);</span>  <span class="c1">//DEBUG!</span>
+  <span class="n">bme280</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x77</span><span class="p">);</span>  <span class="c1">//DEBUG!</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">logRow</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">_pages</span><span class="p">.</span><span class="n">latchNotice</span><span class="p">(</span><span class="mh">0xF2</span><span class="p">);</span>  <span class="c1">//RowNotWritten, the served byte</span>
+    <span class="n">raise</span><span class="p">(</span><span class="n">NW_MSG_ROW_NOT_WRITTEN</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">_logCount</span><span class="o">++</span><span class="p">;</span>   <span class="c1">//FIX??</span>
+  <span class="n">fillPages</span><span class="p">();</span>   <span class="c1">//Okapi's reading of itself: Page 2, Page 3, Block 0</span>
+  <span class="n">reportRows</span><span class="p">();</span>  <span class="c1">//The status file: a row for the logger and every watched sensor with something to report</span>
 <span class="p">}</span>
 
 <span class="kt">void</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">afterLogEvent</span><span class="p">()</span>  <span class="c1">//After an alarm-driven row: the backhaul</span>
@@ -823,7 +841,7 @@
 
 <hr />
 
-<p>Updated on 2026-10-04 at 04:51:38 +0000</p>
+<p>Updated on 2026-10-20 at 05:10:27 +0000</p>
 
         
       </section>
