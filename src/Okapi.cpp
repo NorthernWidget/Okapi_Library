@@ -78,6 +78,7 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
     Serial.println("BME280 init: FAIL");
     _onBoardError = true;
     _bmeError = true;
+    raise(NW_MSG_BME_MISSING);
   }
 
   Serial.begin(38400);  //DEBUG!
@@ -98,6 +99,10 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
   //FIX! Add Feather test??
 
   printReadyToLog();  //"Ready to Log" on Serial; the LED verdict waits for the first row, in run()
+  //Pending Andy's decision on whether a logger keeps serving its own Report
+  //register (QUEUE.md, item 1 step 3). The messages above are what the LED and
+  //the Note column read; this chain is the served byte, and reports only the
+  //first fault it meets.
   //The logger's own report at boot, for its first status row: the first fault the
   //self-tests found, else LoggingStarted (unit, kind 16).
   if (_sdCardMissing) _pages.latchFault(0x01);
