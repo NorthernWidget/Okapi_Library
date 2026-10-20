@@ -74,6 +74,7 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
   _adcExt.begin();
   _dac.begin(0x62);
   _dac.SetRef(BUFFERED_VREF);  //Set buffer configuration //FIX! Make variable if need to set greater than 4.096v?
+  Serial.begin(38400);         //Before the first thing that may print: the BME280 result below
   if (!bme280.begin(0x77)) {   //Initalize onboard temp/pressure/RH sensor (BME280)
     Serial.println("BME280 init: FAIL");
     _onBoardError = true;
@@ -81,7 +82,6 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
     raise(NW_MSG_BME_MISSING);
   }
 
-  Serial.begin(38400);  //DEBUG!
   Serial.print("Lib = ");
   Serial.println(libVersion);
   bool schema1 = readIdentity();  //Serial number and hardware version from Page 0 (Schema 1), else the last 8 bytes (Schema 0)
