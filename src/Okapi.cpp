@@ -97,7 +97,7 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
   enviroStats();  //Only print out enviromental variables if BME is on board
   //FIX! Add Feather test??
 
-  ledReport();  //The self-test results on the RGB LED, then "Ready to Log"
+  printReadyToLog();  //"Ready to Log" on Serial; the LED verdict waits for the first row, in run()
   //The logger's own report at boot, for its first status row: the first fault the
   //self-tests found, else LoggingStarted (unit, kind 16).
   if (_sdCardMissing) _pages.latchFault(0x01);
