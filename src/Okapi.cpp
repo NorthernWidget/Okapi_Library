@@ -111,6 +111,7 @@ bool Okapi::beginBoard(uint8_t* Vals, uint8_t NumVals) {
   else if (_bmeError) _pages.latchFault(0x41);
   else if (_sensorError) _pages.latchFault(0x61);
   _pages.latchNotice(0xF0);
+  raise(NW_MSG_LOG_STARTED);
   _bootReport = _pages.report();
   _pages.acknowledge();
   _newLog = true;  //Set flag to begin new log file
@@ -245,12 +246,15 @@ void Okapi::addDataPoint()  //The streaming row: this board's bus dance around i
 {
   i2cState(EXTERNAL);
   readSensors();
-  i2cState(INTERNAL);                           //DEBUG!
-  bme280.begin(0x77);                           //DEBUG!
-  if (logRow() != 0) _pages.latchNotice(0xF2);  //RowNotWritten
-  _logCount++;                                  //FIX??
-  fillPages();                                  //Okapi's reading of itself: Page 2, Page 3, Block 0
-  reportRows();                                 //The status file: a row for the logger and every watched sensor with something to report
+  i2cState(INTERNAL);  //DEBUG!
+  bme280.begin(0x77);  //DEBUG!
+  if (logRow() != 0) {
+    _pages.latchNotice(0xF2);  //RowNotWritten, the served byte
+    raise(NW_MSG_ROW_NOT_WRITTEN);
+  }
+  _logCount++;   //FIX??
+  fillPages();   //Okapi's reading of itself: Page 2, Page 3, Block 0
+  reportRows();  //The status file: a row for the logger and every watched sensor with something to report
 }
 
 void Okapi::afterLogEvent()  //After an alarm-driven row: the backhaul
