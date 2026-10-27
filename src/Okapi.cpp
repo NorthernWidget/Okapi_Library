@@ -163,14 +163,16 @@ void Okapi::enviroStats() {
 }
 
 //TEMPORARY thresholds (Andy, 2026-10-27: "it might not be perfect"), until the
-//LiPo curve and Page 1's battery block decide them. Alkaline per cell follows
-//Margay's reading of the Duracell fit; the pack is taken as three cells.
+//LiPo curve and Page 1's battery block decide them. LiPo: 3.9 V is about two
+//thirds of a cell's charge at rest and 3.6 V about a tenth, so purple covers
+//half the cell's capacity, which is the time to get there and replace it. The
+//alkaline pack is judged as a whole, not per cell, because that is what is
+//measured (Andy, 2026-10-27); these two are a three-cell pack's numbers.
 static const uint16_t OKAPI_LIPO_ABSENT_MV = 2500;  //no LiPo cell sits this low
 static const uint16_t OKAPI_LIPO_LOW_MV = 3600;     //red: swap or charge before you leave
 static const uint16_t OKAPI_LIPO_MID_MV = 3900;     //purple below this, blue above
-static const uint8_t OKAPI_PRIME_CELLS = 3;
-static const uint16_t OKAPI_PRIME_LOW_MV = 1100 * OKAPI_PRIME_CELLS;
-static const uint16_t OKAPI_PRIME_MID_MV = 1250 * OKAPI_PRIME_CELLS;
+static const uint16_t OKAPI_PRIME_LOW_MV = 3300;    //the whole pack, red below
+static const uint16_t OKAPI_PRIME_MID_MV = 3750;    //the whole pack, purple below, blue above
 static const uint16_t OKAPI_SOLAR_ONLINE_MV = 5000;  //the LT3652 charges from 4.95 V up; current waits on the shunt value
 
 void Okapi::readOnBoard() {
