@@ -291,16 +291,20 @@ void Okapi::chirp(uint8_t form) {
   LED_Color(backup);
   delay(100);
   LED_Color(OFF);
-  //3. If the panel is online, a trill: blue and green traded every 60 ms with no
-  //   dark between, eight times, which shimmers rather than flashes and is
-  //   unlike every fault pattern (they all go dark between lights).
+  //3. If the panel is online, one slow swell: warm white brought up from dark
+  //   to full and back over two seconds. Nothing else in the vocabulary ramps,
+  //   every fault pattern switches hard, so a swell is its own thing and reads
+  //   as calm rather than alarm; a trill at the flutter's rate read as a
+  //   warning (Andy, 2026-10-27). White is daylight and belongs to no band.
   if (_vSolarMv < OKAPI_SOLAR_ONLINE_MV) return;
   delay(500);
-  for (uint8_t i = 0; i < 8; i++) {
-    LED_Color(BLUE);
-    delay(60);
-    LED_Color(GREEN);
-    delay(60);
+  for (uint8_t step = 1; step <= 32; step++) {
+    LED_Color(((uint32_t)(step * 8 - 1) << 24) | 0x00FFFFFFUL);  //luminosity byte up: 7, 15, ... 255
+    delay(30);
+  }
+  for (uint8_t step = 32; step >= 1; step--) {
+    LED_Color(((uint32_t)(step * 8 - 1) << 24) | 0x00FFFFFFUL);  //and down
+    delay(30);
   }
   LED_Color(OFF);
 }

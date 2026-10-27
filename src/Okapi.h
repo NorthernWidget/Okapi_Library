@@ -175,8 +175,8 @@ public:
   /**
    * @brief The power story in series on the status LED (Andy, 2026-10-27).
    * @details Margay's chirp in the LiPo's colour, every time; then "ba bap, ba bap bap"
-   * in the alkaline backup's colour; then, if the solar panel is online, a trill
-   * between blue and green. One LED, one sequence, for the person at the board.
+   * in the alkaline backup's colour; then, if the solar panel is online, one slow
+   * swell of warm white. One LED, one sequence, for the person at the board.
    */
   void chirp(uint8_t form) override;
   /**
