@@ -163,16 +163,18 @@ void Okapi::enviroStats() {
 }
 
 //TEMPORARY thresholds (Andy, 2026-10-27: "it might not be perfect"), until the
-//LiPo curve and Page 1's battery block decide them. LiPo: 3.9 V is about two
-//thirds of a cell's charge at rest and 3.6 V about a tenth, so purple covers
-//half the cell's capacity, which is the time to get there and replace it. The
-//alkaline pack is judged as a whole, not per cell, because that is what is
-//measured (Andy, 2026-10-27); these two are a three-cell pack's numbers.
-static const uint16_t OKAPI_LIPO_ABSENT_MV = 2500;  //no LiPo cell sits this low
-static const uint16_t OKAPI_LIPO_LOW_MV = 3600;     //red: swap or charge before you leave
-static const uint16_t OKAPI_LIPO_MID_MV = 3900;     //purple below this, blue above
-static const uint16_t OKAPI_PRIME_LOW_MV = 3300;    //the whole pack, red below
-static const uint16_t OKAPI_PRIME_MID_MV = 3750;    //the whole pack, purple below, blue above
+//Li-ion curve and Page 1's battery block decide them. The rechargeable pack is
+//three 18650 Li-ion cells in series (Andy, 2026-10-27), so V_LI is a 3S pack:
+//12.6 V full, 11.1 V nominal. Per cell, 3.9 V is about two thirds of charge at
+//rest and 3.6 V about a tenth, so purple covers half the pack's capacity, which
+//is the time to get there and replace it. The alkaline pack is judged as a
+//whole, not per cell, because that is what is measured; its two numbers are a
+//three-cell pack's.
+static const uint16_t OKAPI_LIPO_ABSENT_MV = 7500;  //three cells never sit below 2.5 V each
+static const uint16_t OKAPI_LIPO_LOW_MV = 10800;    //3.6 V a cell: red, swap or charge before you leave
+static const uint16_t OKAPI_LIPO_MID_MV = 11700;    //3.9 V a cell: purple below, blue above
+static const uint16_t OKAPI_PRIME_LOW_MV = 3300;    //the whole alkaline pack, red below
+static const uint16_t OKAPI_PRIME_MID_MV = 3750;    //the whole alkaline pack, purple below, blue above
 static const uint16_t OKAPI_SOLAR_ONLINE_MV = 5000;  //the LT3652 charges from 4.95 V up; current waits on the shunt value
 
 void Okapi::readOnBoard() {
