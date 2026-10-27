@@ -162,6 +162,16 @@ void Okapi::enviroStats() {
   Serial.println("%");
 }
 
+//TEMPORARY thresholds (Andy, 2026-10-27: "it might not be perfect"), until the
+//LiPo curve and Page 1's battery block decide them. Alkaline per cell follows
+//Margay's reading of the Duracell fit; the pack is taken as three cells.
+static const uint16_t OKAPI_LIPO_ABSENT_MV = 2500;  //no LiPo cell sits this low
+static const uint16_t OKAPI_LIPO_LOW_MV = 3600;     //red: swap or charge before you leave
+static const uint16_t OKAPI_LIPO_MID_MV = 3900;     //purple below this, blue above
+static const uint8_t OKAPI_PRIME_CELLS = 3;
+static const uint16_t OKAPI_PRIME_LOW_MV = 1100 * OKAPI_PRIME_CELLS;
+static const uint16_t OKAPI_PRIME_MID_MV = 1250 * OKAPI_PRIME_CELLS;
+
 void Okapi::readOnBoard() {
   //Get onboard temp, RTC temp, and battery voltage, referance voltage
   // float VRef = analogRead(VRef_Pin);
@@ -211,6 +221,79 @@ void Okapi::readOnBoard() {
   _vPrimeMv = VPrime;
   _iSolarMa = ISolar;
   _iBetaMa = IBeta;
+
+  //TEMPORARY (Andy, 2026-10-27): the batteries are on the PAC1934, not on the
+  //ADS1115 at 0x48, which the v1.0 board does not carry. Its VBUS channels are
+  //1 = V_PRIME (the alkaline backup), 2 = V_LI (the LiPo cell), 3 = V_BETA (the
+  //LiPo rail), 4 = V_SOLAR (Okapi.sch, U32). Where the chip answers, its
+  //readings replace the two the row carries; the current channels wait on the
+  //shunt values, which the schematic does not give.
+  if (_pacAddr == 0) _pacAddr = pacFind();
+  if (_pacAddr != 0) {
+    _vPrimeMv = pacVbusMv(1);
+    _vLiMv = pacVbusMv(2);
+    _vBetaMv = pacVbusMv(3);
+    //The LiPo is absent when its terminal reads below any cell voltage, or the
+    //bus could only be brought up from the backup (powerAuto() returned 1).
+    //Either way the backup is carrying the logger: say so, in the file and in
+    //the chirp's form.
+    if (_vLiMv < OKAPI_LIPO_ABSENT_MV || _powerState == 1) raise(NW_MSG_ON_BACKUP_POWER);
+  }
+}
+
+uint32_t Okapi::chirpColour() {
+  //The worse of the two sources would be the full rule (QUEUE, 2026-10-26);
+  //this first version judges the LiPo, and the backup only when the LiPo is
+  //absent, which is what Andy asked for on 2026-10-27.
+  if (_pacAddr == 0) return BLUE;  //No reading: a board that cannot judge its battery says "all well"
+  float mv = _vLiMv;
+  uint16_t low = OKAPI_LIPO_LOW_MV;
+  uint16_t mid = OKAPI_LIPO_MID_MV;
+  if (_vLiMv < OKAPI_LIPO_ABSENT_MV) {
+    mv = _vPrimeMv;
+    low = OKAPI_PRIME_LOW_MV;
+    mid = OKAPI_PRIME_MID_MV;
+  }
+  if (mv < low) return RED;
+  if (mv < mid) return PURPLE;
+  return BLUE;
+}
+
+//PAC1934 (Microchip DS20005850E): REFRESH_V at 0x1F latches fresh VBUS/VSENSE
+//values without touching the accumulators and needs 1 ms (section 4.1.4);
+//VBUS1-4 at 0x07-0x0A, two bytes MSB first, 16-bit unipolar over 32 V, so one
+//count is 488 uV (section 1.0, VBUS_LSB); PRODUCT_ID at 0xFD reads 0x5B for the
+//PAC1934; the address is one of 0x10-0x1F by the ADDR_SEL resistor (Table 5-1),
+//whose value the schematic does not give, so the chip is found by asking.
+static const uint8_t PAC_REFRESH_V = 0x1F;
+static const uint8_t PAC_VBUS1 = 0x07;
+static const uint8_t PAC_PRODUCT_ID = 0xFD;
+static const uint8_t PAC1934_ID = 0x5B;
+
+uint8_t Okapi::pacFind() {
+  for (uint8_t addr = 0x10; addr <= 0x1F; addr++) {
+    Wire.beginTransmission(addr);
+    Wire.write(PAC_PRODUCT_ID);
+    if (Wire.endTransmission(false) != 0) continue;
+    if (Wire.requestFrom(addr, (uint8_t)1) != 1) continue;
+    if (Wire.read() == PAC1934_ID) return addr;
+  }
+  return 0;
+}
+
+uint16_t Okapi::pacVbusMv(uint8_t channel) {
+  if (_pacAddr == 0 || channel < 1 || channel > 4) return 0;
+  Wire.beginTransmission(_pacAddr);
+  Wire.write(PAC_REFRESH_V);
+  if (Wire.endTransmission() != 0) return 0;
+  delay(2);  //1 ms is the datasheet's minimum
+  Wire.beginTransmission(_pacAddr);
+  Wire.write(PAC_VBUS1 + channel - 1);
+  if (Wire.endTransmission(false) != 0) return 0;
+  if (Wire.requestFrom(_pacAddr, (uint8_t)2) != 2) return 0;
+  uint16_t raw = (uint16_t)Wire.read() << 8;
+  raw |= Wire.read();
+  return (uint16_t)(((uint32_t)raw * 32000UL) >> 16);  //32 V over 65536 counts
 }
 
 size_t Okapi::printRow(Print& out, uint8_t lineIndex, uint32_t dataIndex) {

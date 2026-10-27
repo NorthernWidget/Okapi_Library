@@ -163,6 +163,14 @@ public:
      * @brief Determine which input has power and set up power path from that
      */
   uint8_t powerAuto();
+
+  //TEMPORARY (Andy, 2026-10-27): the LiPo and backup voltages from the PAC1934
+  //power monitor (U32), the chip that actually sees them. readOnBoard()'s
+  //_adcOb at 0x48 is not on the v1.0 board (NW-Status/QUEUE.md, requisite 1).
+  //A proper driver, the current channels and Page 1 thresholds follow.
+  uint8_t pacFind();                 ///< Scan 0x10-0x1F for a PAC1934 by its product ID; returns the address, or 0
+  uint16_t pacVbusMv(uint8_t channel);  ///< VBUS of channel 1-4 in mV after a REFRESH_V, or 0 if the chip is absent
+  uint32_t chirpColour() override;   ///< Blue, purple or red from the LiPo, or from the backup when the LiPo is absent
   /**
      * @brief Power from Main, backup, or off
      * @param[in] State: 0 or 3 = OFF, 1 = V_Prime, 2 = V_Beta
@@ -220,6 +228,8 @@ public:
   float _vPrimeMv = NW_ERROR;  ///< Prime rail voltage from the last readOnBoard() [mV]
   float _iSolarMa = NW_ERROR;  ///< Solar current from the last readOnBoard() [mA]
   float _iBetaMa = NW_ERROR;   ///< Beta current from the last readOnBoard() [mA]
+  float _vLiMv = NW_ERROR;     ///< LiPo cell voltage (V_LI) from the last readOnBoard() [mV], PAC1934 channel 2
+  uint8_t _pacAddr = 0;        ///< The PAC1934's address once found, 0 until then
   static constexpr const char* libVersion = OKAPI_LIBRARY_VERSION;
 
 protected:
