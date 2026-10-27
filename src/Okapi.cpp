@@ -171,6 +171,7 @@ static const uint16_t OKAPI_LIPO_MID_MV = 3900;     //purple below this, blue ab
 static const uint8_t OKAPI_PRIME_CELLS = 3;
 static const uint16_t OKAPI_PRIME_LOW_MV = 1100 * OKAPI_PRIME_CELLS;
 static const uint16_t OKAPI_PRIME_MID_MV = 1250 * OKAPI_PRIME_CELLS;
+static const uint16_t OKAPI_SOLAR_ONLINE_MV = 5000;  //the LT3652 charges from 4.95 V up; current waits on the shunt value
 
 void Okapi::readOnBoard() {
   //Get onboard temp, RTC temp, and battery voltage, referance voltage
@@ -233,6 +234,7 @@ void Okapi::readOnBoard() {
     _vPrimeMv = pacVbusMv(1);
     _vLiMv = pacVbusMv(2);
     _vBetaMv = pacVbusMv(3);
+    _vSolarMv = pacVbusMv(4);
     //The LiPo is absent when its terminal reads below any cell voltage, or the
     //bus could only be brought up from the backup (powerAuto() returned 1).
     //Either way the backup is carrying the logger: say so, in the file and in
@@ -241,22 +243,66 @@ void Okapi::readOnBoard() {
   }
 }
 
-uint32_t Okapi::chirpColour() {
-  //The worse of the two sources would be the full rule (QUEUE, 2026-10-26);
-  //this first version judges the LiPo, and the backup only when the LiPo is
-  //absent, which is what Andy asked for on 2026-10-27.
-  if (_pacAddr == 0) return BLUE;  //No reading: a board that cannot judge its battery says "all well"
-  float mv = _vLiMv;
-  uint16_t low = OKAPI_LIPO_LOW_MV;
-  uint16_t mid = OKAPI_LIPO_MID_MV;
-  if (_vLiMv < OKAPI_LIPO_ABSENT_MV) {
-    mv = _vPrimeMv;
-    low = OKAPI_PRIME_LOW_MV;
-    mid = OKAPI_PRIME_MID_MV;
-  }
+static uint32_t levelColour(float mv, uint16_t low, uint16_t mid) {
   if (mv < low) return RED;
   if (mv < mid) return PURPLE;
   return BLUE;
+}
+
+uint32_t Okapi::chirpColour() {
+  //The LiPo's, every time (Andy, 2026-10-27): absent counts as low, because
+  //there is nothing to run on. No reading at all says "all well", as a board
+  //that cannot judge its battery does.
+  if (_pacAddr == 0) return BLUE;
+  return levelColour(_vLiMv, OKAPI_LIPO_LOW_MV, OKAPI_LIPO_MID_MV);
+}
+
+uint32_t Okapi::backupColour() {
+  if (_pacAddr == 0) return BLUE;
+  return levelColour(_vPrimeMv, OKAPI_PRIME_LOW_MV, OKAPI_PRIME_MID_MV);
+}
+
+void Okapi::chirp(uint8_t form) {
+  //1. Margay's chirp, in the LiPo's colour (or the long-and-buzz when the card
+  //   is out): what a Margay user already knows.
+  NW_Logger::chirp(form);
+  if (_pacAddr == 0) return;  //Nothing more to say without the power monitor
+  //2. "ba bap, ba bap bap" in the alkaline backup's colour. ba = 200 ms, bap =
+  //   100 ms, 100 ms dark inside a group, 300 ms at the comma; 500 ms before it
+  //   so it reads as the next thing and not as part of the chirp.
+  uint32_t backup = backupColour();
+  delay(500);
+  LED_Color(backup);
+  delay(200);
+  LED_Color(OFF);
+  delay(100);
+  LED_Color(backup);
+  delay(100);
+  LED_Color(OFF);
+  delay(300);
+  LED_Color(backup);
+  delay(200);
+  LED_Color(OFF);
+  delay(100);
+  LED_Color(backup);
+  delay(100);
+  LED_Color(OFF);
+  delay(100);
+  LED_Color(backup);
+  delay(100);
+  LED_Color(OFF);
+  //3. If the panel is online, a trill: blue and green traded every 60 ms with no
+  //   dark between, eight times, which shimmers rather than flashes and is
+  //   unlike every fault pattern (they all go dark between lights).
+  if (_vSolarMv < OKAPI_SOLAR_ONLINE_MV) return;
+  delay(500);
+  for (uint8_t i = 0; i < 8; i++) {
+    LED_Color(BLUE);
+    delay(60);
+    LED_Color(GREEN);
+    delay(60);
+  }
+  LED_Color(OFF);
 }
 
 //PAC1934 (Microchip DS20005850E): REFRESH_V at 0x1F latches fresh VBUS/VSENSE
