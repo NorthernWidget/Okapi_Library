@@ -249,9 +249,13 @@ void Okapi::readOnBoard() {
 }
 
 uint32_t Okapi::rowBlipColour() {
-  //The field's one light says which pack is carrying the logger (Andy,
-  //2026-10-28): blue on the rechargeable pack, as on Margay; amber on the backup.
-  return _onBackup ? GOLD : BLUE;
+  //The field's one light says how healthy the pack carrying the logger is
+  //(Andy, 2026-10-28): blue, purple or red, the chirp's own three, judged on
+  //the rechargeable pack, or on the backup when it has taken over. Which pack
+  //it is belongs to the grid: a green flash (A1) for the rechargeable, a yellow
+  //one (A2) for the backup, beside this blip, once the PCA9634 driver exists.
+  if (_pacAddr == 0) return BLUE;
+  return _onBackup ? backupColour() : chirpColour();
 }
 
 static uint32_t levelColour(float mv, uint16_t low, uint16_t mid) {
