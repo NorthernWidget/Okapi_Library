@@ -234,7 +234,7 @@ void Okapi::readOnBoard() {
   //readings replace the two the row carries; the current channels wait on the
   //shunt values, which the schematic does not give.
   if (_pacAddr == 0) _pacAddr = pacFind();
-  if (_pacAddr != 0) {
+  if (_pacAddr != 0 && pacRefresh()) {
     _vPrimeMv = pacVbusMv(1);
     _vLiMv = pacVbusMv(2);
     _vBetaMv = pacVbusMv(3);
@@ -330,10 +330,32 @@ void Okapi::chirp(uint8_t form) {
 //count is 488 uV (section 1.0, VBUS_LSB); PRODUCT_ID at 0xFD reads 0x5B for the
 //PAC1934; the address is one of 0x10-0x1F by the ADDR_SEL resistor (Table 5-1),
 //whose value the schematic does not give, so the chip is found by asking.
+//
+//Power: the chip is wired always-on (!PWRDN to 3V3_CORE) and powers up
+//converting at 1024 samples a second, 585 uA (Table 1-2), with its SLOW pin on
+//an expander input that floats. Single-shot mode (CTRL bit 4, Register 6-2)
+//makes each REFRESH one conversion cycle and then sleep at 5 uA, so the chip
+//costs the logger a few milliseconds a row and nothing between rows. Found and
+//configured at the first row; until then it draws its power-up current.
+static const uint8_t PAC_CTRL = 0x01;
+static const uint8_t PAC_CTRL_SING = 0x10;  //bit 4: one conversion per REFRESH, then sleep
 static const uint8_t PAC_REFRESH_V = 0x1F;
 static const uint8_t PAC_VBUS1 = 0x07;
 static const uint8_t PAC_PRODUCT_ID = 0xFD;
 static const uint8_t PAC1934_ID = 0x5B;
+
+static bool pacWrite(uint8_t addr, uint8_t reg) {
+  Wire.beginTransmission(addr);
+  Wire.write(reg);
+  return Wire.endTransmission() == 0;
+}
+
+static bool pacWrite(uint8_t addr, uint8_t reg, uint8_t value) {
+  Wire.beginTransmission(addr);
+  Wire.write(reg);
+  Wire.write(value);
+  return Wire.endTransmission() == 0;
+}
 
 uint8_t Okapi::pacFind() {
   for (uint8_t addr = 0x10; addr <= 0x1F; addr++) {
@@ -341,17 +363,30 @@ uint8_t Okapi::pacFind() {
     Wire.write(PAC_PRODUCT_ID);
     if (Wire.endTransmission(false) != 0) continue;
     if (Wire.requestFrom(addr, (uint8_t)1) != 1) continue;
-    if (Wire.read() == PAC1934_ID) return addr;
+    if (Wire.read() != PAC1934_ID) continue;
+    //Single-shot from now on: the control register takes effect at the next
+    //REFRESH, which also runs the one conversion and puts the chip to sleep.
+    pacWrite(addr, PAC_CTRL, PAC_CTRL_SING);
+    pacWrite(addr, PAC_REFRESH_V);
+    delay(10);
+    return addr;
   }
   return 0;
 }
 
+bool Okapi::pacRefresh() {
+  //One REFRESH_V runs the single-shot conversion; the next latches its results
+  //into the readable registers (section 4.1.4) and sends the chip back to sleep.
+  if (_pacAddr == 0) return false;
+  if (!pacWrite(_pacAddr, PAC_REFRESH_V)) return false;
+  delay(10);  //a four-channel cycle at 1024 samples a second, with margin
+  if (!pacWrite(_pacAddr, PAC_REFRESH_V)) return false;
+  delay(2);  //1 ms is the datasheet's minimum before reading
+  return true;
+}
+
 uint16_t Okapi::pacVbusMv(uint8_t channel) {
   if (_pacAddr == 0 || channel < 1 || channel > 4) return 0;
-  Wire.beginTransmission(_pacAddr);
-  Wire.write(PAC_REFRESH_V);
-  if (Wire.endTransmission() != 0) return 0;
-  delay(2);  //1 ms is the datasheet's minimum
   Wire.beginTransmission(_pacAddr);
   Wire.write(PAC_VBUS1 + channel - 1);
   if (Wire.endTransmission(false) != 0) return 0;

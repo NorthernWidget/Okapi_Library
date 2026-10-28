@@ -169,7 +169,8 @@ public:
   //_adcOb at 0x48 is not on the v1.0 board (NW-Status/QUEUE.md, requisite 1).
   //A proper driver, the current channels and Page 1 thresholds follow.
   uint8_t pacFind();                 ///< Scan 0x10-0x1F for a PAC1934 by its product ID; returns the address, or 0
-  uint16_t pacVbusMv(uint8_t channel);  ///< VBUS of channel 1-4 in mV after a REFRESH_V, or 0 if the chip is absent
+  bool pacRefresh();                 ///< One single-shot conversion of all channels, results latched, chip back asleep
+  uint16_t pacVbusMv(uint8_t channel);  ///< VBUS of channel 1-4 in mV from the last pacRefresh(), or 0 if the chip is absent
   uint32_t chirpColour() override;   ///< The LiPo's state: blue good, purple middling, red low or absent
   uint32_t backupColour();           ///< The alkaline backup's state, the same three colours
   uint32_t rowBlipColour() override;  ///< The level of the pack carrying the logger: blue, purple or red
