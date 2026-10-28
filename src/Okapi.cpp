@@ -243,8 +243,15 @@ void Okapi::readOnBoard() {
     //bus could only be brought up from the backup (powerAuto() returned 1).
     //Either way the backup is carrying the logger: say so, in the file and in
     //the chirp's form.
-    if (_vLiMv < OKAPI_LIPO_ABSENT_MV || _powerState == 1) raise(NW_MSG_ON_BACKUP_POWER);
+    _onBackup = (_vLiMv < OKAPI_LIPO_ABSENT_MV || _powerState == 1);
+    if (_onBackup) raise(NW_MSG_ON_BACKUP_POWER);
   }
+}
+
+uint32_t Okapi::rowBlipColour() {
+  //The field's one light says which pack is carrying the logger (Andy,
+  //2026-10-28): blue on the rechargeable pack, as on Margay; amber on the backup.
+  return _onBackup ? GOLD : BLUE;
 }
 
 static uint32_t levelColour(float mv, uint16_t low, uint16_t mid) {

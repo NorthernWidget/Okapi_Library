@@ -172,6 +172,7 @@ public:
   uint16_t pacVbusMv(uint8_t channel);  ///< VBUS of channel 1-4 in mV after a REFRESH_V, or 0 if the chip is absent
   uint32_t chirpColour() override;   ///< The LiPo's state: blue good, purple middling, red low or absent
   uint32_t backupColour();           ///< The alkaline backup's state, the same three colours
+  uint32_t rowBlipColour() override;  ///< Blue on the rechargeable pack, amber while the backup carries the logger
   /**
    * @brief The power story in series on the status LED (Andy, 2026-10-27).
    * @details Margay's chirp in the LiPo's colour, every time; then "ba bap, ba bap bap"
@@ -239,6 +240,7 @@ public:
   float _vLiMv = NW_ERROR;     ///< LiPo cell voltage (V_LI) from the last readOnBoard() [mV], PAC1934 channel 2
   float _vSolarMv = NW_ERROR;  ///< Solar input voltage (V_SOLAR) from the last readOnBoard() [mV], PAC1934 channel 4
   uint8_t _pacAddr = 0;        ///< The PAC1934's address once found, 0 until then
+  bool _onBackup = false;      ///< The backup pack is carrying the logger, as of the last readOnBoard()
   static constexpr const char* libVersion = OKAPI_LIBRARY_VERSION;
 
 protected:
