@@ -541,6 +541,18 @@
   <span class="kt">void</span> <span class="n">addDataPoint</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
 
   <span class="kt">uint8_t</span> <span class="nf">powerAuto</span><span class="p">();</span>
+
+  <span class="c1">//TEMPORARY (Andy, 2026-10-27): the LiPo and backup voltages from the PAC1934</span>
+  <span class="c1">//power monitor (U32), the chip that actually sees them. readOnBoard()'s</span>
+  <span class="c1">//_adcOb at 0x48 is not on the v1.0 board (NW-Status/QUEUE.md, requisite 1).</span>
+  <span class="c1">//A proper driver, the current channels and Page 1 thresholds follow.</span>
+  <span class="kt">uint8_t</span> <span class="nf">pacFind</span><span class="p">();</span>                 
+  <span class="kt">bool</span> <span class="nf">pacRefresh</span><span class="p">();</span>                 
+  <span class="kt">uint16_t</span> <span class="nf">pacVbusMv</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">channel</span><span class="p">);</span>  
+  <span class="kt">uint32_t</span> <span class="n">chirpColour</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>   
+  <span class="kt">uint32_t</span> <span class="nf">backupColour</span><span class="p">();</span>           
+  <span class="kt">uint32_t</span> <span class="n">rowBlipColour</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>  
+  <span class="kt">void</span> <span class="n">chirp</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">form</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
   <span class="kt">void</span> <span class="nf">powerAux</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">State</span><span class="p">);</span>
   <span class="kt">void</span> <span class="nf">i2cState</span><span class="p">(</span><span class="kt">bool</span> <span class="n">State</span><span class="p">);</span>
 
@@ -573,6 +585,10 @@
   <span class="kt">float</span> <span class="n">_vPrimeMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>  
   <span class="kt">float</span> <span class="n">_iSolarMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>  
   <span class="kt">float</span> <span class="n">_iBetaMa</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>   
+  <span class="kt">float</span> <span class="n">_vLiMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>     
+  <span class="kt">float</span> <span class="n">_vSolarMv</span> <span class="o">=</span> <span class="n">NW_ERROR</span><span class="p">;</span>  
+  <span class="kt">uint8_t</span> <span class="n">_pacAddr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>        
+  <span class="kt">bool</span> <span class="n">_onBackup</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>      
   <span class="k">static</span> <span class="k">constexpr</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">libVersion</span> <span class="o">=</span> <span class="n">OKAPI_LIBRARY_VERSION</span><span class="p">;</span>
 
 <span class="k">protected</span><span class="o">:</span>
@@ -605,7 +621,7 @@
 
 <hr />
 
-<p>Updated on 2026-10-20 at 05:10:27 +0000</p>
+<p>Updated on 2026-11-04 at 08:24:56 +0000</p>
 
         
       </section>

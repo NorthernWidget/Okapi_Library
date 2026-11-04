@@ -225,11 +225,11 @@
           <aside class="sidebar__right sticky">
             <nav class="toc" aria-label="Table of contents">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#attributes">Attributes</a></li><li><a href="#attributes-documentation">Attributes Documentation</a><ul><li><a href="#variable-okapichips">variable okapiChips</a></li><li><a href="#variable-okapiwords">variable okapiWords</a></li><li><a href="#variable-okapichipwords">variable okapiChipWords</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
+              <ul class="toc__menu"><li><a href="#functions">Functions</a></li><li><a href="#attributes">Attributes</a></li><li><a href="#functions-documentation">Functions Documentation</a><ul><li><a href="#function-levelcolour">function levelColour</a></li><li><a href="#function-pacwrite">function pacWrite</a></li><li><a href="#function-pacwrite-1">function pacWrite</a></li></ul></li><li><a href="#attributes-documentation">Attributes Documentation</a><ul><li><a href="#variable-okapi_lipo_absent_mv">variable OKAPI_LIPO_ABSENT_MV</a></li><li><a href="#variable-okapi_lipo_low_mv">variable OKAPI_LIPO_LOW_MV</a></li><li><a href="#variable-okapi_lipo_mid_mv">variable OKAPI_LIPO_MID_MV</a></li><li><a href="#variable-okapi_prime_low_mv">variable OKAPI_PRIME_LOW_MV</a></li><li><a href="#variable-okapi_prime_mid_mv">variable OKAPI_PRIME_MID_MV</a></li><li><a href="#variable-okapi_solar_online_mv">variable OKAPI_SOLAR_ONLINE_MV</a></li><li><a href="#variable-pac_ctrl">variable PAC_CTRL</a></li><li><a href="#variable-pac_ctrl_sing">variable PAC_CTRL_SING</a></li><li><a href="#variable-pac_refresh_v">variable PAC_REFRESH_V</a></li><li><a href="#variable-pac_vbus1">variable PAC_VBUS1</a></li><li><a href="#variable-pac_product_id">variable PAC_PRODUCT_ID</a></li><li><a href="#variable-pac1934_id">variable PAC1934_ID</a></li><li><a href="#variable-okapichips">variable okapiChips</a></li><li><a href="#variable-okapiwords">variable okapiWords</a></li><li><a href="#variable-okapichipwords">variable okapiChipWords</a></li></ul></li><li><a href="#source-code">Source code</a></li></ul>
             </nav>
           </aside>
         
-        <h2 id="attributes">Attributes</h2>
+        <h2 id="functions">Functions</h2>
 
 <table>
   <thead>
@@ -239,6 +239,79 @@
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>uint32_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#function-levelcolour">levelColour</a></strong>(float mv, uint16_t low, uint16_t mid)</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#function-pacwrite">pacWrite</a></strong>(uint8_t addr, uint8_t reg)</td>
+    </tr>
+    <tr>
+      <td>bool</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#function-pacwrite">pacWrite</a></strong>(uint8_t addr, uint8_t reg, uint8_t value)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="attributes">Attributes</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-lipo-absent-mv">OKAPI_LIPO_ABSENT_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-lipo-low-mv">OKAPI_LIPO_LOW_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-lipo-mid-mv">OKAPI_LIPO_MID_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-prime-low-mv">OKAPI_PRIME_LOW_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-prime-mid-mv">OKAPI_PRIME_MID_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint16_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapi-solar-online-mv">OKAPI_SOLAR_ONLINE_MV</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac-ctrl">PAC_CTRL</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac-ctrl-sing">PAC_CTRL_SING</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac-refresh-v">PAC_REFRESH_V</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac-vbus1">PAC_VBUS1</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac-product-id">PAC_PRODUCT_ID</a></strong></td>
+    </tr>
+    <tr>
+      <td>const uint8_t</td>
+      <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-pac1934-id">PAC1934_ID</a></strong></td>
+    </tr>
     <tr>
       <td>const char *const</td>
       <td><strong><a href="/Okapi_Library/Files/Okapi_8cpp/#variable-okapichips">okapiChips</a></strong></td>
@@ -254,7 +327,95 @@
   </tbody>
 </table>
 
+<h2 id="functions-documentation">Functions Documentation</h2>
+
+<h3 id="function-levelcolour">function levelColour</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">uint32_t</span> <span class="n">levelColour</span><span class="p">(</span>
+    <span class="kt">float</span> <span class="n">mv</span><span class="p">,</span>
+    <span class="kt">uint16_t</span> <span class="n">low</span><span class="p">,</span>
+    <span class="kt">uint16_t</span> <span class="n">mid</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="function-pacwrite">function pacWrite</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">bool</span> <span class="n">pacWrite</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">addr</span><span class="p">,</span>
+    <span class="kt">uint8_t</span> <span class="n">reg</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="function-pacwrite-1">function pacWrite</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">bool</span> <span class="n">pacWrite</span><span class="p">(</span>
+    <span class="kt">uint8_t</span> <span class="n">addr</span><span class="p">,</span>
+    <span class="kt">uint8_t</span> <span class="n">reg</span><span class="p">,</span>
+    <span class="kt">uint8_t</span> <span class="n">value</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
 <h2 id="attributes-documentation">Attributes Documentation</h2>
+
+<h3 id="variable-okapi_lipo_absent_mv">variable OKAPI_LIPO_ABSENT_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_ABSENT_MV</span> <span class="o">=</span> <span class="mi">2500</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-okapi_lipo_low_mv">variable OKAPI_LIPO_LOW_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_LOW_MV</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-okapi_lipo_mid_mv">variable OKAPI_LIPO_MID_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_MID_MV</span> <span class="o">=</span> <span class="mi">3900</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-okapi_prime_low_mv">variable OKAPI_PRIME_LOW_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_PRIME_LOW_MV</span> <span class="o">=</span> <span class="mi">3300</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-okapi_prime_mid_mv">variable OKAPI_PRIME_MID_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_PRIME_MID_MV</span> <span class="o">=</span> <span class="mi">3750</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-okapi_solar_online_mv">variable OKAPI_SOLAR_ONLINE_MV</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_SOLAR_ONLINE_MV</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac_ctrl">variable PAC_CTRL</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_CTRL</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac_ctrl_sing">variable PAC_CTRL_SING</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_CTRL_SING</span> <span class="o">=</span> <span class="mh">0x10</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac_refresh_v">variable PAC_REFRESH_V</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_REFRESH_V</span> <span class="o">=</span> <span class="mh">0x1F</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac_vbus1">variable PAC_VBUS1</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_VBUS1</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac_product_id">variable PAC_PRODUCT_ID</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_PRODUCT_ID</span> <span class="o">=</span> <span class="mh">0xFD</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="variable-pac1934_id">variable PAC1934_ID</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC1934_ID</span> <span class="o">=</span> <span class="mh">0x5B</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h3 id="variable-okapichips">variable okapiChips</h3>
 
@@ -298,13 +459,17 @@
   <span class="c1">// WDHold = 255; //Null pins</span>
   <span class="c1">// BatSwitch = 255; //Null pins</span>
 
-  <span class="c1">//No watchdog ceiling is checked, because this board's watchdog is not being</span>
-  <span class="c1">//fed. Its TPL5111's DONE line (net WD_DONE in Okapi.sch) lands on the I/O</span>
-  <span class="c1">//expander's GPIOA3, not on an MCU pin, so resetWDT()'s pulse on WDHold - 23 by</span>
-  <span class="c1">//default here, never overridden - reaches an unrelated pin. The period itself</span>
-  <span class="c1">//is jumper-selected at JP8: R20 130k gives 3943 s (66 min) and R62 330k is</span>
-  <span class="c1">//outside the part's 170k maximum. Set this once DONE is driven through the</span>
-  <span class="c1">//expander (FIX!).</span>
+  <span class="c1">//No watchdog ceiling is checked, because this board has no hardware watchdog</span>
+  <span class="c1">//for the MCU (read from Okapi.sch and the TPL5111 datasheet, 2026-10-30). The</span>
+  <span class="c1">//TPL5111 (U8) is the telemetry module's power timer: DRVn drives U10, the</span>
+  <span class="c1">//switch on the Feather's battery input, every interval in timer mode or at</span>
+  <span class="c1">//once when FEATHER_EN pulls its DELAY/M_DRV pin through Q3; its DONE input</span>
+  <span class="c1">//(net WD_DONE) goes only to the FeatherWing socket's A3 and the B-SoM's ADC3,</span>
+  <span class="c1">//so the module ends its own power window. resetWDT()'s pulse on WDHold (23 by</span>
+  <span class="c1">//default, which is Sw_Bus_Prime here, Project-Okapi#4) feeds nothing. The</span>
+  <span class="c1">//interval is jumper-selected at JP8: R20 130k gives 3943 s and R62 330k is</span>
+  <span class="c1">//outside the part's 170k maximum. Whether the MCU needs a watchdog is a</span>
+  <span class="c1">//next-board question (NW-Status/QUEUE.md, "Okapi's watchdog").</span>
   <span class="n">wdtSeconds</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
   <span class="c1">// BatteryDivider = 2.0;</span>
@@ -437,6 +602,21 @@
   <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"%"</span><span class="p">);</span>
 <span class="p">}</span>
 
+<span class="c1">//TEMPORARY thresholds (Andy, 2026-10-27: "it might not be perfect"), until the</span>
+<span class="c1">//Li-ion curve and Page 1's battery block decide them. The rechargeable pack is</span>
+<span class="c1">//three 18650 Li-ion cells in parallel (Andy, 2026-10-28), so V_LI is one cell's</span>
+<span class="c1">//voltage: 4.2 V full, 3.7 V nominal. 3.9 V is about two thirds of charge at rest</span>
+<span class="c1">//and 3.6 V about a tenth, so purple covers half the pack's capacity, which is</span>
+<span class="c1">//the time to get there and replace it. The alkaline pack is judged as a whole,</span>
+<span class="c1">//not per cell, because that is what is measured; its two numbers are a</span>
+<span class="c1">//three-cell pack's.</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_ABSENT_MV</span> <span class="o">=</span> <span class="mi">2500</span><span class="p">;</span>  <span class="c1">//no Li-ion cell sits this low</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_LOW_MV</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">;</span>     <span class="c1">//red: swap or charge before you leave</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_LIPO_MID_MV</span> <span class="o">=</span> <span class="mi">3900</span><span class="p">;</span>     <span class="c1">//purple below this, blue above</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_PRIME_LOW_MV</span> <span class="o">=</span> <span class="mi">3300</span><span class="p">;</span>    <span class="c1">//the whole alkaline pack, red below</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_PRIME_MID_MV</span> <span class="o">=</span> <span class="mi">3750</span><span class="p">;</span>    <span class="c1">//the whole alkaline pack, purple below, blue above</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint16_t</span> <span class="n">OKAPI_SOLAR_ONLINE_MV</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">;</span>  <span class="c1">//the LT3652 charges from 4.95 V up; current waits on the shunt value</span>
+
 <span class="kt">void</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">readOnBoard</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">//Get onboard temp, RTC temp, and battery voltage, referance voltage</span>
   <span class="c1">// float VRef = analogRead(VRef_Pin);</span>
@@ -486,6 +666,174 @@
   <span class="n">_vPrimeMv</span> <span class="o">=</span> <span class="n">VPrime</span><span class="p">;</span>
   <span class="n">_iSolarMa</span> <span class="o">=</span> <span class="n">ISolar</span><span class="p">;</span>
   <span class="n">_iBetaMa</span> <span class="o">=</span> <span class="n">IBeta</span><span class="p">;</span>
+
+  <span class="c1">//TEMPORARY (Andy, 2026-10-27): the batteries are on the PAC1934, not on the</span>
+  <span class="c1">//ADS1115 at 0x48, which the v1.0 board does not carry. Its VBUS channels are</span>
+  <span class="c1">//1 = V_PRIME (the alkaline backup), 2 = V_LI (the LiPo cell), 3 = V_BETA (the</span>
+  <span class="c1">//LiPo rail), 4 = V_SOLAR (Okapi.sch, U32). Where the chip answers, its</span>
+  <span class="c1">//readings replace the two the row carries; the current channels wait on the</span>
+  <span class="c1">//shunt values, which the schematic does not give.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">_pacAddr</span> <span class="o">=</span> <span class="n">pacFind</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pacRefresh</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">_vPrimeMv</span> <span class="o">=</span> <span class="n">pacVbusMv</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">_vLiMv</span> <span class="o">=</span> <span class="n">pacVbusMv</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">_vBetaMv</span> <span class="o">=</span> <span class="n">pacVbusMv</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="n">_vSolarMv</span> <span class="o">=</span> <span class="n">pacVbusMv</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+    <span class="c1">//The LiPo is absent when its terminal reads below any cell voltage, or the</span>
+    <span class="c1">//bus could only be brought up from the backup (powerAuto() returned 1).</span>
+    <span class="c1">//Either way the backup is carrying the logger: say so, in the file and in</span>
+    <span class="c1">//the chirp's form.</span>
+    <span class="n">_onBackup</span> <span class="o">=</span> <span class="p">(</span><span class="n">_vLiMv</span> <span class="o">&lt;</span> <span class="n">OKAPI_LIPO_ABSENT_MV</span> <span class="o">||</span> <span class="n">_powerState</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_onBackup</span><span class="p">)</span> <span class="n">raise</span><span class="p">(</span><span class="n">NW_MSG_ON_BACKUP_POWER</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">uint32_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">rowBlipColour</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">//The field's one light says how healthy the pack carrying the logger is</span>
+  <span class="c1">//(Andy, 2026-10-28): blue, purple or red, the chirp's own three, judged on</span>
+  <span class="c1">//the rechargeable pack, or on the backup when it has taken over. Which pack</span>
+  <span class="c1">//it is belongs to the grid: a green flash (A1) for the rechargeable, a yellow</span>
+  <span class="c1">//one (A2) for the backup, beside this blip, once the PCA9634 driver exists.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">BLUE</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">_onBackup</span> <span class="o">?</span> <span class="n">backupColour</span><span class="p">()</span> <span class="o">:</span> <span class="n">chirpColour</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">uint32_t</span> <span class="nf">levelColour</span><span class="p">(</span><span class="kt">float</span> <span class="n">mv</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">low</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">mid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">mv</span> <span class="o">&lt;</span> <span class="n">low</span><span class="p">)</span> <span class="k">return</span> <span class="n">RED</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">mv</span> <span class="o">&lt;</span> <span class="n">mid</span><span class="p">)</span> <span class="k">return</span> <span class="n">PURPLE</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">BLUE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint32_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">chirpColour</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">//The LiPo's, every time (Andy, 2026-10-27): absent counts as low, because</span>
+  <span class="c1">//there is nothing to run on. No reading at all says "all well", as a board</span>
+  <span class="c1">//that cannot judge its battery does.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">BLUE</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">levelColour</span><span class="p">(</span><span class="n">_vLiMv</span><span class="p">,</span> <span class="n">OKAPI_LIPO_LOW_MV</span><span class="p">,</span> <span class="n">OKAPI_LIPO_MID_MV</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">uint32_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">backupColour</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">BLUE</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">levelColour</span><span class="p">(</span><span class="n">_vPrimeMv</span><span class="p">,</span> <span class="n">OKAPI_PRIME_LOW_MV</span><span class="p">,</span> <span class="n">OKAPI_PRIME_MID_MV</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">chirp</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">form</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//1. Margay's chirp, in the LiPo's colour (or the long-and-buzz when the card</span>
+  <span class="c1">//   is out): what a Margay user already knows.</span>
+  <span class="n">NW_Logger</span><span class="o">::</span><span class="n">chirp</span><span class="p">(</span><span class="n">form</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>  <span class="c1">//Nothing more to say without the power monitor</span>
+  <span class="c1">//2. "ba bap, ba bap bap" in the alkaline backup's colour. ba = 200 ms, bap =</span>
+  <span class="c1">//   100 ms, 100 ms dark inside a group, 300 ms at the comma; 500 ms before it</span>
+  <span class="c1">//   so it reads as the next thing and not as part of the chirp.</span>
+  <span class="kt">uint32_t</span> <span class="n">backup</span> <span class="o">=</span> <span class="n">backupColour</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">backup</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">backup</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">300</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">backup</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">backup</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">backup</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+  <span class="c1">//3. If the panel is online, one slow swell: warm white brought up from dark</span>
+  <span class="c1">//   to full and back over two seconds. Nothing else in the vocabulary ramps,</span>
+  <span class="c1">//   every fault pattern switches hard, so a swell is its own thing and reads</span>
+  <span class="c1">//   as calm rather than alarm; a trill at the flutter's rate read as a</span>
+  <span class="c1">//   warning (Andy, 2026-10-27). White is daylight and belongs to no band.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_vSolarMv</span> <span class="o">&lt;</span> <span class="n">OKAPI_SOLAR_ONLINE_MV</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">step</span> <span class="o">&lt;=</span> <span class="mi">32</span><span class="p">;</span> <span class="n">step</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LED_Color</span><span class="p">(((</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">step</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">|</span> <span class="mh">0x00FFFFFFUL</span><span class="p">);</span>  <span class="c1">//luminosity byte up: 7, 15, ... 255</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span> <span class="n">step</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">step</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LED_Color</span><span class="p">(((</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">step</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span><span class="p">)</span> <span class="o">|</span> <span class="mh">0x00FFFFFFUL</span><span class="p">);</span>  <span class="c1">//and down</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">LED_Color</span><span class="p">(</span><span class="n">OFF</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//PAC1934 (Microchip DS20005850E): REFRESH_V at 0x1F latches fresh VBUS/VSENSE</span>
+<span class="c1">//values without touching the accumulators and needs 1 ms (section 4.1.4);</span>
+<span class="c1">//VBUS1-4 at 0x07-0x0A, two bytes MSB first, 16-bit unipolar over 32 V, so one</span>
+<span class="c1">//count is 488 uV (section 1.0, VBUS_LSB); PRODUCT_ID at 0xFD reads 0x5B for the</span>
+<span class="c1">//PAC1934; the address is one of 0x10-0x1F by the ADDR_SEL resistor (Table 5-1),</span>
+<span class="c1">//whose value the schematic does not give, so the chip is found by asking.</span>
+<span class="c1">//</span>
+<span class="c1">//Power: the chip is wired always-on (!PWRDN to 3V3_CORE) and powers up</span>
+<span class="c1">//converting at 1024 samples a second, 585 uA (Table 1-2), with its SLOW pin on</span>
+<span class="c1">//an expander input that floats. Single-shot mode (CTRL bit 4, Register 6-2)</span>
+<span class="c1">//makes each REFRESH one conversion cycle and then sleep at 5 uA, so the chip</span>
+<span class="c1">//costs the logger a few milliseconds a row and nothing between rows. Found and</span>
+<span class="c1">//configured at the first row; until then it draws its power-up current.</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_CTRL</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_CTRL_SING</span> <span class="o">=</span> <span class="mh">0x10</span><span class="p">;</span>  <span class="c1">//bit 4: one conversion per REFRESH, then sleep</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_REFRESH_V</span> <span class="o">=</span> <span class="mh">0x1F</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_VBUS1</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC_PRODUCT_ID</span> <span class="o">=</span> <span class="mh">0xFD</span><span class="p">;</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">PAC1934_ID</span> <span class="o">=</span> <span class="mh">0x5B</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">pacWrite</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">reg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">reg</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">bool</span> <span class="nf">pacWrite</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">addr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">reg</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">reg</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint8_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">pacFind</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">addr</span> <span class="o">=</span> <span class="mh">0x10</span><span class="p">;</span> <span class="n">addr</span> <span class="o">&lt;=</span> <span class="mh">0x1F</span><span class="p">;</span> <span class="n">addr</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">addr</span><span class="p">);</span>
+    <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">PAC_PRODUCT_ID</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">()</span> <span class="o">!=</span> <span class="n">PAC1934_ID</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+    <span class="c1">//Single-shot from now on: the control register takes effect at the next</span>
+    <span class="c1">//REFRESH, which also runs the one conversion and puts the chip to sleep.</span>
+    <span class="n">pacWrite</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">PAC_CTRL</span><span class="p">,</span> <span class="n">PAC_CTRL_SING</span><span class="p">);</span>
+    <span class="n">pacWrite</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">PAC_REFRESH_V</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">addr</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">pacRefresh</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">//One REFRESH_V runs the single-shot conversion; the next latches its results</span>
+  <span class="c1">//into the readable registers (section 4.1.4) and sends the chip back to sleep.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pacWrite</span><span class="p">(</span><span class="n">_pacAddr</span><span class="p">,</span> <span class="n">PAC_REFRESH_V</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">//a four-channel cycle at 1024 samples a second, with margin</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pacWrite</span><span class="p">(</span><span class="n">_pacAddr</span><span class="p">,</span> <span class="n">PAC_REFRESH_V</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  <span class="c1">//1 ms is the datasheet's minimum before reading</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint16_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">pacVbusMv</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">channel</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">_pacAddr</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">channel</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">channel</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">_pacAddr</span><span class="p">);</span>
+  <span class="n">Wire</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">PAC_VBUS1</span> <span class="o">+</span> <span class="n">channel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">Wire</span><span class="p">.</span><span class="n">requestFrom</span><span class="p">(</span><span class="n">_pacAddr</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span><span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">uint16_t</span> <span class="n">raw</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)</span><span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">;</span>
+  <span class="n">raw</span> <span class="o">|=</span> <span class="n">Wire</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+  <span class="k">return</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(((</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">raw</span> <span class="o">*</span> <span class="mi">32000UL</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span><span class="p">);</span>  <span class="c1">//32 V over 65536 counts</span>
 <span class="p">}</span>
 
 <span class="kt">size_t</span> <span class="n">Okapi</span><span class="o">::</span><span class="n">printRow</span><span class="p">(</span><span class="n">Print</span><span class="o">&amp;</span> <span class="n">out</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">lineIndex</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">dataIndex</span><span class="p">)</span> <span class="p">{</span>
@@ -841,7 +1189,7 @@
 
 <hr />
 
-<p>Updated on 2026-10-20 at 05:10:27 +0000</p>
+<p>Updated on 2026-11-04 at 08:24:56 +0000</p>
 
         
       </section>
